@@ -7,10 +7,11 @@ import Link from "next/link";
 
 export default function NurseSideNav() {
   const patientList = [
-    { name: "Tanaka Zirima", href: "/" },
+    { name: "Tanaka Zirima", href: "/dashboard/nurse/12/profile" , patientId:1 },
     {
       name: "Mary Chinoda",
-      href: "/",
+      href: "/dashboard/nurse/12/profile",
+      patientId:2
     },
   ];
   return (
