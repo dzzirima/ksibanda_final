@@ -9,7 +9,7 @@ export default function AdminTopNav() {
         { name: 'Add User', href: '/dashboard/admin/users/create' },
         {
           name: 'Add Cente',
-          href: '/centers/create',
+          href: '/dashboard/admin/centers/create',
         
         },
       ];
