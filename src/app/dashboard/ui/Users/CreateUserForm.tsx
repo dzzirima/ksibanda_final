@@ -13,7 +13,7 @@ export default function CreateUserForm() {
 
   return (
     <form action={dispatch}>
-      <div className="flex flex-col justify-center mt-5 sm:mx-auto sm:w-full sm:max-w-sm gap-1">
+      <div className="flex flex-col justify-start mt-5 sm:mx-auto sm:w-full sm:max-w-sm gap-1">
 
         <Typography variant="h5" className="text-center"> Add New User</Typography>
 
@@ -91,7 +91,7 @@ export default function CreateUserForm() {
         <div className="text-left">
           <label
             htmlFor="role"
-            className="block mb-2 text-sm font-medium dark:text-white"
+            className="block mb-2 text-sm font-medium "
           >
             Role
           </label>

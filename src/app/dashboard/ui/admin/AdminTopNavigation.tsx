@@ -6,7 +6,7 @@ import Link from "next/link";
 export default function AdminTopNav() {
 
     const links = [
-        { name: 'Add User', href: '/users/create' },
+        { name: 'Add User', href: '/dashboard/admin/users/create' },
         {
           name: 'Add Cente',
           href: '/centers/create',
