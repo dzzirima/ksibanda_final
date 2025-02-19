@@ -3,7 +3,11 @@
 import {
   UserGroupIcon,
   HomeIcon,
-  DocumentDuplicateIcon,
+  CalendarIcon,
+  UserCircleIcon,
+  ChatBubbleBottomCenterTextIcon,
+  BeakerIcon
+
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -14,11 +18,24 @@ import clsx from "clsx";
 const links = [
   { name: "Home", href: "/dashboard", icon: HomeIcon },
   {
-    name: "Invoices",
-    href: "/dashboard/invoices",
-    icon: DocumentDuplicateIcon,
+    name: "Patients",
+    href: "/dashboard/patients",
+    icon: UserCircleIcon,
   },
-  { name: "Customers", href: "/dashboard/customers", icon: UserGroupIcon },
+  { name: "Nurse", href: "/dashboard/nurse", icon: UserCircleIcon },
+  { name: "Doctor", href: "/dashboard/doctor", icon: UserCircleIcon },
+  {
+    name: "Lab",
+    href: "/dashboard/lab",
+    icon: BeakerIcon,
+  },
+  { name: "Calender", href: "/dashboard/calender", icon: CalendarIcon },
+  {
+    name: "Help",
+    href: "/dashboard/help",
+    icon: ChatBubbleBottomCenterTextIcon,
+  },
+  { name: "Admin", href: "/dashboard/admin", icon: UserGroupIcon },
 ];
 
 export default function NavLinks() {
@@ -33,7 +50,7 @@ export default function NavLinks() {
             key={link.name}
             href={link.href}
             className={clsx(
-              "flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3",
+              "flex h-[40px] grow items-center justify-center gap-1 rounded-md bg-gray-50 p-1 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-1 md:px-3",
               {
                 "bg-sky-100 text-blue-600": pathname === link.href,
               }

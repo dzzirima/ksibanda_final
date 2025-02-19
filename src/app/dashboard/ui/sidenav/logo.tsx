@@ -7,7 +7,7 @@ export default function CompanyLogo() {
       className={` flex flex-row items-center leading-none text-white`}
     >
       <GlobeAltIcon className="h-10 w-10 rotate-[15deg]" />
-      <p className="text-[30px] ">Sibanda</p>
+      <p className="text-[20px] ">MATTER EHR</p>
     </div>
   );
 }
