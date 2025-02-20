@@ -1,7 +1,7 @@
 import TopAnalysis from "@/app/dashboard/ui/doctor/TopAnalysis";
 import PatientTable from "@/app/dashboard/ui/doctor/PatientTable";
 
-export default function DoctorDashboard() { 
+export default function LabDashboard() { 
   return (
     <div className="flex  flex-col">
         <div className="top-container">

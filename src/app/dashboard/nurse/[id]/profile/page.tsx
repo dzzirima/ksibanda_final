@@ -55,25 +55,18 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           </div>
 
           <div className="">
-            <UserStatistics/>
+            <UserStatistics />
           </div>
         </div>
       </Card>
 
       {/* <Form invoice={invoice} customers={customers} /> */}
-      <div className=" m-3">  </div>
-        <Divider> Reffarals</Divider>
+      <div className=" m-3"> </div>
+      <Divider> Reffarals</Divider>
 
-
-        <Card>
-        <Referral/>
-        </Card>
-      
-
-
-
-    
- 
+      <Card>
+        <Referral />
+      </Card>
     </main>
   );
 }
