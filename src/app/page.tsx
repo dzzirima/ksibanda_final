@@ -7,6 +7,7 @@ import Web3Modal from "web3modal";
 import { providers, Contract } from "ethers";
 import { useEffect, useRef, useState } from "react";
 import { WHITELIST_CONTRACT_ADDRESS, abi } from "@/app/dashboard/blockchain/index";
+import HomePage from "@/app/page"
 
 export default function Home() {
   // walletConnected keep track of whether the user's wallet is connected or not
@@ -44,8 +45,10 @@ export default function Home() {
     // If user is not connected to the Rinkeby network, let them know and throw an error
     const { chainId } = await web3Provider.getNetwork();
 
-    console.log(chainId)
-    if (chainId !== 4) {
+    // console.log(chainId)
+    if (chainId !== 11155111) {
+      console.log(chainId)
+
       window.alert("Change the network to Rinkeby");
       throw new Error("Change network to Rinkeby");
     }
@@ -209,13 +212,9 @@ export default function Home() {
       </Head>
       <div className={styles.main}>
         <div>
-          <h1 className={styles.title}>Welcome to Crypto Devs!</h1>
-          <div className={styles.description}>
-            Its an NFT collection for developers in Crypto.
-          </div>
-          <div className={styles.description}>
-            {numberOfWhitelisted} have already joined the Whitelist
-          </div>
+
+          <div className=""> Top class</div>
+          
           {renderButton()}
         </div>
         <div>
