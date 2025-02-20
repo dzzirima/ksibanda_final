@@ -22,7 +22,7 @@ export default function ReferralForm() {
 
   return (
     <form action={dispatch} className="m-4">
-      <div className="flex flex-col justify-start mt-5 sm:mx-auto sm:w-full sm:max-w-sm gap-1">
+      <div className="flex flex-col justify-start mt-5 sm:mx-auto sm:w-full sm:max-w-full gap-1">
         <Typography variant="h5" className="text-center">
           {" "}
           New Referal
