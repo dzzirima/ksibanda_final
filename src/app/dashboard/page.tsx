@@ -1,3 +1,5 @@
+"use client";
+
 import TopAnalyis from "@/app/dashboard/ui/dashboard/TopAnalysis";
 import BottomAnalysis from "@/app/dashboard/ui/dashboard/BottomAnalysis";
 
@@ -13,3 +15,7 @@ export default function HomePage() {
     </div>
   );
 }
+
+
+
+

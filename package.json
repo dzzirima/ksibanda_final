@@ -14,12 +14,16 @@
     "@heroicons/react": "^2.2.0",
     "@mui/material": "^6.4.5",
     "clsx": "^2.1.1",
+   
     "next": "15.1.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "recharts": "^2.15.1",
     "rsuite": "^5.77.1",
-    "zod": "^3.24.2"
+    "zod": "^3.24.2",
+
+    "web3modal": "^1.9.6",
+    "ethers": "^5.6.3"
   },
   "devDependencies": {
     "@types/node": "^20",
