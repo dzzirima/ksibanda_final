@@ -162,6 +162,23 @@ export default function PatientTable() {
           </Cell>
         </Column>
 
+        <Column width={130} fixed="right">
+          <HeaderCell> </HeaderCell>
+
+          <Cell style={{ padding: "6px" }}>
+            {(rowData) => (
+              <>
+                <Button
+                  appearance="link"
+                  onClick={() => alert(`id:${rowData.id}`)}
+                >
+                  Refferal
+                </Button>
+              </>
+            )}
+          </Cell>
+        </Column>
+
       </Table>
     </div>
   );

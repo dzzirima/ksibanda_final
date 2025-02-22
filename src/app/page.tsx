@@ -45,8 +45,10 @@ export default function Home() {
     // If user is not connected to the Rinkeby network, let them know and throw an error
     const { chainId } = await web3Provider.getNetwork();
 
-    // console.log(chainId)
-    if (chainId !== 11155111) {
+    console.log(chainId)
+    if (chainId !== 59141) {
+
+      console.log("chainId")
       console.log(chainId)
 
       window.alert("Change the network to Rinkeby");
@@ -223,7 +225,7 @@ export default function Home() {
       </div>
 
       <footer className={styles.footer}>
-        Made with &#10084; by Crypto Devs
+        Made By K Sibanda
       </footer>
     </div>
   );
