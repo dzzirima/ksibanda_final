@@ -9,7 +9,7 @@ const alchemyKey = "https://eth-sepolia.g.alchemy.com/v2/c-4sRjDS8v-wgYweeU6RcON
 const web3 = createAlchemyWeb3(alchemyKey);
 
 const contractABI = require("./contract-abi.json");
-const contractAddress = "0x5D0063d846d2555f04A205A991547Cb6e544E322";
+const contractAddress = "0x0149346eAaa208b65B338a5a5814B228C9030eBa";
 
 export const connectWallet = async () => {
   if (window.ethereum) {
@@ -147,7 +147,7 @@ export const mintNFT = async (url, name, description) => {
 
 
 
-console.log(  window.ethereum.isConnected())
+
 window.contract = await new web3.eth.Contract(contractABI, contractAddress);
 
 console.log(" 1" )
@@ -188,9 +188,60 @@ try {
     status: "😥 Something went wrong: " + error.message,
   };
 
-
-  
 }
 
   
 };
+
+
+// checking if patient has minted their NFT
+
+
+export const addAccessor_2 = async () => {
+
+  console.log("from checkIfAllowed")
+
+  window.contract = await new web3.eth.Contract(contractABI, contractAddress);
+
+console.log(" checking access !!" )
+
+
+const transactionParameters = {
+  to: contractAddress, // Required except during contract publications.
+  from: window.ethereum.selectedAddress, // must match user's active address.
+  data: window.contract.methods
+    .addAccessor(0,window.ethereum.selectedAddress)
+    .encodeABI(),
+};
+
+
+try {
+
+  const txHash = await window.ethereum.request({
+    method: "eth_sendTransaction",
+    params: [transactionParameters],
+  });
+
+  console.log(txHash)
+
+  return {
+    success: true,
+    status:
+      "✅ Check out your transaction on Etherscan: https://sepolia.etherscan.io/tx/" +
+      txHash,
+  };
+
+  
+} catch (error) {
+
+  console.log(error)
+
+  return {
+    success: false,
+    status: "😥 Something went wrong: " + error.message,
+  };
+
+}
+
+  
+}

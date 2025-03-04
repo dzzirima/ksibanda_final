@@ -4,6 +4,7 @@ import "./App.css";
 import { useEffect, useState } from "react";
 
 import { connectWallet ,getCurrentWalletConnected ,addWalletListener, mintNFT} from "./interact.js";
+import Test from './Test';
 
 export default function Minter () {
 
@@ -104,7 +105,12 @@ export default function Minter () {
       <p id="status">
         {status}
       </p>
+
+      <Test/>
     </div>
+
+
+
   );
 
 };
