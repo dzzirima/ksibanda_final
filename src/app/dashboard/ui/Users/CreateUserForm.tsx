@@ -112,6 +112,19 @@ export default function CreateUserForm() {
           
           </select>
         </div>
+
+        <TextField
+          name="walletAddress"
+          size="small"
+          className="mt-2"
+          variant="outlined"
+          label="Wallet Address"
+          type="text"
+        />
+        {state?.errors?.walletAddress &&
+          state.errors.walletAddress.map((error) => (
+            <p className="mt-1 text-sm text-red-500"> {error}</p>
+          ))}
         
 
        
