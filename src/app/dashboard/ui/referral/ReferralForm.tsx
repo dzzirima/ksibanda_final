@@ -4,7 +4,11 @@ import SubmitButton from "@/app/dashboard/ui/utils/SubmitButton";
 import {
   Checkbox,
   Divider,
+  FormControl,
   FormControlLabel,
+  InputLabel,
+  MenuItem,
+  Select,
   TextField,
   Typography,
 } from "@mui/material";
@@ -15,8 +19,8 @@ import {
 } from "@/app/dashboard/actions/referals/createReferalAction";
 import { useActionState } from "react";
 
-export default function ReferralForm() {
-  const initialState: State = { message: "", errors: {} };
+export default function ReferralForm({ users }: { users: any }) {
+  const initialState: State = { message: " ", errors: {} };
 
   const [state, dispatch] = useActionState(createReferalAction, initialState);
 
@@ -38,6 +42,24 @@ export default function ReferralForm() {
           state.errors.referalTo.map((error) => (
             <p className="mt-2 text-sm text-red-500"> {error}</p>
           ))}
+
+        <select
+          id="customer"
+          name="referalTo"
+          className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+          defaultValue=""
+          aria-describedby="customer-error"
+        >
+          <option value="" disabled>
+            Select Patient
+          </option>
+          {users.map((user: any) => (
+            <option key={user.walletAddress} value={user.walletAddress}>
+              {user.firstName + " " + user.lastName}
+            </option>
+          ))}
+        </select>
+
         <TextField
           name="hospital"
           size="small"
@@ -164,7 +186,7 @@ export default function ReferralForm() {
             htmlFor="centerType"
             className="block mb-2 mt-2 text-sm font-medium "
           >
-            Request  Access to full health Record
+            Request Access to full health Record
           </label>
           <select
             id="requestAccess"
@@ -172,11 +194,8 @@ export default function ReferralForm() {
             className="bg-indigo-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 "
             defaultValue={"NO"}
           >
-            <option value="NO">
-            No
-            </option>
+            <option value="NO">No</option>
             <option value="YES">YES</option>
-          
           </select>
         </div>
 

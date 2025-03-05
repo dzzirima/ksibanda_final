@@ -1,5 +1,6 @@
 import TopAnalysis from "@/app/dashboard/ui/doctor/TopAnalysis";
 import PatientTable from "@/app/dashboard/ui/doctor/PatientTable";
+import DoctorTopNav from  "@/app/dashboard/ui/doctor/DoctorNav"
 
 export default function DoctorDashboard() { 
   return (
@@ -8,9 +9,7 @@ export default function DoctorDashboard() {
 
             <TopAnalysis/>
         </div>
-        {/* <div className="">
-           <PatientTable
-        </div> */}
+        <DoctorTopNav/>
 
         <div className="">
             <PatientTable/>

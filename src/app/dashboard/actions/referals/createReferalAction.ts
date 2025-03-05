@@ -2,6 +2,8 @@
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import dbConnect from "@/app/lib/dbConnect";
+import Referal from "@/app/model/Refferal";
 // import {BackendInstance} from "@/app/service/axios"
 
 // zod schema defination
@@ -60,6 +62,7 @@ export type State = {
 export async function createReferalAction(prevState: State, formData: FormData) {
  
   const rawDataFromEntries = Object.fromEntries(formData.entries());
+  console.log(rawDataFromEntries)
 
   
 
@@ -74,28 +77,25 @@ export async function createReferalAction(prevState: State, formData: FormData) 
 
   let formDataFields = validateFields.data;
   
+  try {
+    
+    await dbConnect();
+    const referal = await Referal.create(formDataFields);
 
- // try {
-   
+    console.log(referal)
 
+  } catch (error) {
+    // If a database error occurs, return a more specific error.
+    console.log(error);
+    return {
+      errors: {},
+      message: "Database Error: Failed to Create client .",
+    };
+  }
 
-//   let createClientRes = await BackendInstance.post("/client" , clientObject)
+  // Revalidate the cache for the invoices page and redirect the user.
+  // revalidatePath("/dashboard");
+  redirect("/dashboard/");
 
-
-//   if(createClientRes.status != 201){
-//     return {
-//       message: 'API  Failed to Create Invoice.',
-//     };
-//   }
-//   } catch (error) {
-//     // If a database error occurs, return a more specific error.
-//     return {
-//       message: 'Database Error: Failed to Create client .',
-//     };
-//   }
-
-    // Revalidate the cache for the invoices page and redirect the user.
-  revalidatePath("/dashboard");
-  redirect("/dashboard/query");
   
 }
