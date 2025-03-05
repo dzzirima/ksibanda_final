@@ -1,4 +1,4 @@
-[
+ [
   {
     "inputs": [
       {
@@ -264,17 +264,17 @@
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "tokenId",
-        "type": "uint256"
+        "internalType": "string",
+        "name": "userId",
+        "type": "string"
       },
       {
-        "internalType": "address",
+        "internalType": "string",
         "name": "accessor",
-        "type": "address"
+        "type": "string"
       }
     ],
-    "name": "addAccessor",
+    "name": "addAccessors",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -319,6 +319,30 @@
   {
     "inputs": [
       {
+        "internalType": "string",
+        "name": "userId",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "requestor",
+        "type": "string"
+      }
+    ],
+    "name": "canAcccess",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "uint256",
         "name": "tokenId",
         "type": "uint256"
@@ -338,22 +362,17 @@
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "tokenId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "accessor",
-        "type": "address"
+        "internalType": "string",
+        "name": "userId",
+        "type": "string"
       }
     ],
-    "name": "hasAccess",
+    "name": "getUserAccessors",
     "outputs": [
       {
-        "internalType": "bool",
+        "internalType": "string[]",
         "name": "",
-        "type": "bool"
+        "type": "string[]"
       }
     ],
     "stateMutability": "view",
@@ -455,14 +474,14 @@
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "tokenId",
-        "type": "uint256"
+        "internalType": "string",
+        "name": "userId",
+        "type": "string"
       },
       {
-        "internalType": "address",
+        "internalType": "string",
         "name": "accessor",
-        "type": "address"
+        "type": "string"
       }
     ],
     "name": "removeAccessor",

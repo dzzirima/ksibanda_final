@@ -222,6 +222,8 @@ try {
     params: [transactionParameters],
   });
 
+
+  console.log
   console.log(txHash)
 
   return {

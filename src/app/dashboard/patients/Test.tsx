@@ -1,7 +1,7 @@
 import { Button } from "@mui/material";
 import { checkIfMinted } from "./test_scripts/test_nteract";
 
-import { addAccessor, test_2 } from "./test_scripts/test_new";
+import { addAccessor, checkIfHasAccess } from "./test_scripts/test_new";
 import { addAccessor_2 } from "./interact";
 
 export default function Test() {
@@ -14,7 +14,7 @@ export default function Test() {
         <div>
         <h1> 
 
-            <Button onClick={addAccessor_2}> Test Func</Button>
+            <Button onClick={checkIfHasAccess}> Test Func</Button>
         </h1>
         </div>
     );

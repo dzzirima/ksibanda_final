@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 import CONTRACT_ABI from "../contract-abi.json";
-const CONTRACT_ADDRESS = "0x0149346eAaa208b65B338a5a5814B228C9030eBa";
+const CONTRACT_ADDRESS = "0x217adeA111aC371396067faA52E59d9E440B2079";
 
 async function connectWallet() {
   if (!window.ethereum) {
@@ -20,7 +20,7 @@ async function connectWallet() {
   }
 }
 
-export const test_2 = async () => {
+export const checkIfHasAccess = async () => {
   const signer = await connectWallet();
   if (!signer) return;
 
@@ -33,11 +33,12 @@ export const test_2 = async () => {
     );
 
     // Call the mint function
-    const tx = await contract.hasAccess(26, window.ethereum.selectedAddress);
+    
+    const tx = await contract.canAcccess(window.ethereum.selectedAddress ,window.ethereum.selectedAddress )
 
     console.log(tx);
 
-    console.log("Transaction confirmed:", receipt);
+    console.log("Transaction confirmed:", tx);
   } catch (error) {
     console.error("Error calling contract function:", error);
   }
