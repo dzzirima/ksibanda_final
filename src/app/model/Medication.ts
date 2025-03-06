@@ -5,8 +5,6 @@ export interface IMedication extends Document {
     patientWalletAddress:String,
     nextVisit:String,
     topic:String
-    
-
 }
 
 const medicationSchema: Schema = new mongoose.Schema({
