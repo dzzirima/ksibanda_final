@@ -55,7 +55,7 @@ let address = currentUser['walletAddress']
 
 
   } catch (error) {
-    console.log(error);
+    
 
     return [];
   }

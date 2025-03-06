@@ -1,118 +1,80 @@
-'use client'
-import './index.css';
-import "./App.css";
-import { useEffect, useState } from "react";
-
-import { connectWallet ,getCurrentWalletConnected ,addWalletListener, mintNFT} from "./interact.js";
-import Test from './Test';
-
-export default function Minter () {
 
 
-  
+import findReferralsByPatientId from "@/app/dashboard/actions/referals/findReferalsByClientId";
+import findProfileByPatientId from "@/app/dashboard/actions/users/findProfileByPatientId";
+import UserStatistics from "@/app/dashboard/ui/Users/statistics";
+import Breadcrumbs from "@/app/dashboard/ui/utils/BreadCumps";
+import PersonalDetails from "@/app/dashboard/ui/utils/PersonalDetail";
+import Referral from "@/app/dashboard/ui/utils/Referral";
+import { Card, Divider, Typography } from "@mui/material";
+// import { fetchInvoiceById, fetchCustomers } from '@/app/lib/data';
+import { notFound } from "next/navigation";
+import AccessrequestTable from "../ui/utils/AccessRequestTable";
+import findRequestByWalletid from "../actions/AccessRequest/find_request_access_by_wallet";
 
-  
-  //State variables
-  const [walletAddress, setWallet] = useState("");
-  const [status, setStatus] = useState("");
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [url, setURL] = useState("");
- 
- 
+export default async function Page(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
 
-  const connectWalletPressed = async () => {
-     //TODO: implement
-     const walletResponse = await connectWallet();
-     //@ts-ignore
-     setStatus(walletResponse.status);
-     setWallet(walletResponse.address);
-   
-  };
-
-  const onMintPressed = async () => { 
-    //TODO: implement
-    
-
-    const { status } = await mintNFT(url, name, description);
-    setStatus(status);
-  };
+  //@ts-ignore
+    let accessRequests = await findRequestByWalletid("window.ethereum.selectedAddress")
 
 
- useEffect(() => {
-  
-    const fetchWalletAddress = async () => {
-      const {address, status} = await getCurrentWalletConnected();
-      setWallet(address);
-      //@ts-ignore
-      setStatus(status);
-    
-    }
+  const patientId = params.id;
+  const [profile, refarreals] = await Promise.all([
+    findProfileByPatientId(10),
+    findReferralsByPatientId(1),
+  ]);
 
-    
-    fetchWalletAddress();
-   
- 
-  
- }, [])
-
- 
- 
-
-  
-
+  if (!profile) {
+    notFound();
+  }
   return (
-    <div className="Minter">
-      <button id="walletButton" onClick={connectWalletPressed}>
-        {walletAddress.length > 0 ? (
-          "Connected: " +
-          String(walletAddress).substring(0, 6) +
-          "..." +
-          String(walletAddress).substring(38)
-        ) : (
-          <span>Connect Wallet</span>
-        )}
-      </button>
+    <main>
+      <Breadcrumbs
+        breadcrumbs={[
+          { label: "Home", href: "/dashboard/" },
+          {
+            label: "Patient Profile",
+            href: `/dashboard/referral/create`,
+            active: true,
+          },
+        ]}
+      />
 
-      <br></br>
-      <h1 id="title">🧙‍♂️ Alchemy NFT Minter</h1>
-      <p>
-        Simply add your asset's link, name, and description, then press "Mint."
-      </p>
-      <form>
-        <h2>🖼 Link to asset: </h2>
-        <input
-          type="text"
-          placeholder="e.g. https://gateway.pinata.cloud/ipfs/<hash>"
-          onChange={(event) => setURL(event.target.value)}
-        />
-        <h2>🤔 Name: </h2>
-        <input
-          type="text"
-          placeholder="e.g. My first NFT!"
-          onChange={(event) => setName(event.target.value)}
-        />
-        <h2>✍️ Description: </h2>
-        <input
-          type="text"
-          placeholder="e.g. Even cooler than cryptokitties ;)"
-          onChange={(event) => setDescription(event.target.value)}
-        />
-      </form>
-      <button id="mintButton" onClick={onMintPressed}>
-        Mint NFT
-      </button>
-      <p id="status">
-        {status}
-      </p>
+      <Card className="p-4" elevation={1}>
+        <div className="flex flex-col md:flex-row">
+          <div className="">
+            <PersonalDetails name="Jane" title="Name" />
+            <PersonalDetails name="test@gmail.com" title="email" />
+            <PersonalDetails title="Last Name" name="Zirima" />
+            <PersonalDetails title="Phone Number" name="0785395827" />
+            <PersonalDetails
+              title="Address"
+              name="39 Vanpraah Milton Park , Harare"
+            />
 
-      <Test/>
-    </div>
+            <PersonalDetails
+              title="Expected Delivery Date"
+              name="29 June 2020"
+            />
+            <PersonalDetails title="Next Appoinment" name="29 June 2020" />
+            <PersonalDetails title="Last Appoinment" name="29 June 2020" />
 
+            <PersonalDetails title="Marital Status" name="Single" />
+          </div>
 
+          <div className="">
+            <UserStatistics />
+          </div>
+        </div>
+      </Card>
 
+      {/* <Form invoice={invoice} customers={customers} /> */}
+      <div className=" m-3"> </div>
+      <Divider> Reffarals</Divider>
+      <Card>
+        <AccessrequestTable data={accessRequests}/>
+      </Card>
+    </main>
   );
-
-};
-
-
+}
