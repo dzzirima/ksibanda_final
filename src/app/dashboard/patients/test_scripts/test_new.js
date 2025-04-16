@@ -34,13 +34,14 @@ export const checkIfHasAccess = async () => {
 
     // Call the mint function
     
+  
     const tx = await contract.canAcccess(window.ethereum.selectedAddress ,window.ethereum.selectedAddress )
+    console.log("Transaction details:" + tx.toString());
+    return tx;
 
-    console.log(tx);
-
-    console.log("Transaction confirmed:", tx);
   } catch (error) {
     console.error("Error calling contract function:", error);
+    return false;
   }
 };
 

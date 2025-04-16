@@ -10,7 +10,7 @@ export default function NurseSideNav() {
     { name: "Tanaka Zirima", href: "/dashboard/nurse/12/profile" , patientId:1 },
     {
       name: "Mary Chinoda",
-      href: "/dashboard/nurse/12/profile",
+      href: "/dashboard/nurse/13/profile",
       patientId:2
     },
   ];

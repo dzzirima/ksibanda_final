@@ -8,13 +8,13 @@ export default function Test() {
 
     const userAction = async () => {
         //@ts-ignore
-        await checkIfMinted(window.ethereum.selectedAddress);
+        await checkIfHasAccess()
     }
     return (
         <div>
         <h1> 
 
-            <Button onClick={checkIfHasAccess}> Test Func</Button>
+            <Button onClick={userAction}> Test Func</Button>
         </h1>
         </div>
     );

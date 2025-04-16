@@ -1,10 +1,8 @@
-
 const { createAlchemyWeb3 } = require("@alch/alchemy-web3");
 import { pinJSONToIPFS } from "./pinata.js";
 import { ethers } from "ethers";
-const alchemyKey = "https://eth-sepolia.g.alchemy.com/v2/c-4sRjDS8v-wgYweeU6RcON2fs7-Z4js"
-
-
+const alchemyKey =
+  "https://eth-sepolia.g.alchemy.com/v2/c-4sRjDS8v-wgYweeU6RcON2fs7-Z4js";
 
 const web3 = createAlchemyWeb3(alchemyKey);
 
@@ -134,9 +132,9 @@ export const mintNFT = async (url, name, description) => {
   //pinata pin request
   const pinataResponse = await pinJSONToIPFS(metadata);
 
-  console.log('from pinata')
+  console.log("from pinata");
 
-  console.log(pinataResponse)
+  console.log(pinataResponse);
   if (!pinataResponse.success) {
     return {
       success: false,
@@ -145,105 +143,80 @@ export const mintNFT = async (url, name, description) => {
   }
   const tokenURI = pinataResponse.pinataUrl;
 
+  window.contract = await new web3.eth.Contract(contractABI, contractAddress);
 
+  console.log(" 1");
 
-
-window.contract = await new web3.eth.Contract(contractABI, contractAddress);
-
-console.log(" 1" )
-
-
-const transactionParameters = {
-  to: contractAddress, // Required except during contract publications.
-  from: window.ethereum.selectedAddress, // must match user's active address.
-  data: window.contract.methods
-    .mintNFT(window.ethereum.selectedAddress, tokenURI)
-    .encodeABI(),
-};
-
-
-try {
-
-  const txHash = await window.ethereum.request({
-    method: "eth_sendTransaction",
-    params: [transactionParameters],
-  });
-
-  console.log(txHash)
-
-  return {
-    success: true,
-    status:
-      "✅ Check out your transaction on Etherscan: https://sepolia.etherscan.io/tx/" +
-      txHash,
+  const transactionParameters = {
+    to: contractAddress, // Required except during contract publications.
+    from: window.ethereum.selectedAddress, // must match user's active address.
+    data: window.contract.methods
+      .mintNFT(window.ethereum.selectedAddress, tokenURI)
+      .encodeABI(),
   };
 
-  
-} catch (error) {
+  try {
+    const txHash = await window.ethereum.request({
+      method: "eth_sendTransaction",
+      params: [transactionParameters],
+    });
 
-  console.log(error)
+    console.log(txHash);
 
-  return {
-    success: false,
-    status: "😥 Something went wrong: " + error.message,
-  };
+    return {
+      success: true,
+      status:
+        "✅ Check out your transaction on Etherscan: https://sepolia.etherscan.io/tx/" +
+        txHash,
+    };
+  } catch (error) {
+    console.log(error);
 
-}
-
-  
+    return {
+      success: false,
+      status: "😥 Something went wrong: " + error.message,
+    };
+  }
 };
-
 
 // checking if patient has minted their NFT
 
-
 export const addAccessor_2 = async () => {
-
-  console.log("from checkIfAllowed")
+  console.log("from checkIfAllowed");
 
   window.contract = await new web3.eth.Contract(contractABI, contractAddress);
 
-console.log(" checking access !!" )
+  console.log(" checking access !!");
 
+  const transactionParameters = {
+    to: contractAddress, // Required except during contract publications.
+    from: window.ethereum.selectedAddress, // must match user's active address.
+    data: window.contract.methods
+      .addAccessor(0, window.ethereum.selectedAddress)
+      .encodeABI(),
+  };
 
-const transactionParameters = {
-  to: contractAddress, // Required except during contract publications.
-  from: window.ethereum.selectedAddress, // must match user's active address.
-  data: window.contract.methods
-    .addAccessor(0,window.ethereum.selectedAddress)
-    .encodeABI(),
+  try {
+    const txHash = await window.ethereum.request({
+      method: "eth_sendTransaction",
+      params: [transactionParameters],
+    });
+
+    console.log;
+    console.log(txHash);
+
+    return {
+      success: true,
+      status:
+        "✅ Check out your transaction on Etherscan: https://sepolia.etherscan.io/tx/" +
+        txHash,
+    };
+  } catch (error) {
+    console.log(error);
+
+    return {
+      success: false,
+      status: "😥 Something went wrong: " + error.message,
+    };
+  }
 };
-
-
-try {
-
-  const txHash = await window.ethereum.request({
-    method: "eth_sendTransaction",
-    params: [transactionParameters],
-  });
-
-
-  console.log
-  console.log(txHash)
-
-  return {
-    success: true,
-    status:
-      "✅ Check out your transaction on Etherscan: https://sepolia.etherscan.io/tx/" +
-      txHash,
-  };
-
-  
-} catch (error) {
-
-  console.log(error)
-
-  return {
-    success: false,
-    status: "😥 Something went wrong: " + error.message,
-  };
-
-}
-
-  
-}
