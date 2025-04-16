@@ -2,6 +2,8 @@
 
 import { Table, Button } from 'rsuite';
 import 'rsuite/Table/styles/index.css';
+import approveRequestAccess from '../../actions/AccessRequest/approve_request_acces';
+import { addAccessor } from '../../patients/test_scripts/test_new';
 
 
 const { Column, HeaderCell, Cell } = Table;
@@ -44,7 +46,13 @@ export default function AccessrequestTable({data}:{
 
         <Cell style={{ padding: '6px' }}>
           {rowData => (
-            <Button appearance="link" onClick={() => alert(`id:${rowData.id}`)}>
+            <Button 
+              className="border border-blue-500 rounded-md p-1 bg-blue-500 text-white hover:bg-blue-700" 
+              onClick={async () => {
+              let res = await addAccessor(rowData.requestorWalletId, rowData.patientWalletId);
+              alert(`${res}`);
+              }}
+            >
               Approve
             </Button>
           )}

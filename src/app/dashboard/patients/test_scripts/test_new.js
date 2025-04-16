@@ -1,6 +1,13 @@
 import { ethers } from "ethers";
 import CONTRACT_ABI from "../contract-abi.json";
+import approveRequestAccessDb from "../../actions/AccessRequest/approve_request_acces_db";
 const CONTRACT_ADDRESS = "0x217adeA111aC371396067faA52E59d9E440B2079";
+
+// import dbConnect from "@/app/lib/dbConnect";
+// import AccessRequest from "@/app/model/AccessRequest";
+
+
+
 
 async function connectWallet() {
   if (!window.ethereum) {
@@ -46,7 +53,7 @@ export const checkIfHasAccess = async () => {
 };
 
 
-export const addAccessor = async () => {
+export const addAccessor = async (requestorWalletId,patientWalletId) => {
   const signer = await connectWallet();
   if (!signer) return;
 
@@ -59,13 +66,23 @@ export const addAccessor = async () => {
     );
 
     // Call the mint function
-    const tx = await contract.addAccessor(0, window.ethereum.selectedAddress);
+    const tx = await contract.addAccessors(requestorWalletId, window.ethereum.selectedAddress);
 
     console.log(tx);
 
-    console.log("Transaction confirmed:", receipt);
+    console.log("Transaction confirmed:", tx);
+    
+
+    let upUpdateRes = await  approveRequestAccessDb(requestorWalletId,patientWalletId);
+    return "Access granted successfully";
+
+
+    // upate db 
+   
+
   } catch (error) {
-    console.error("Error calling contract function:", error);
+    console.error("Error granting access", error);
+    return "Error granting access";
   }
 };
 

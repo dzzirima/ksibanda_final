@@ -14,9 +14,7 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
 
   useEffect(() => {
     async function checkIfcanAccess() {
-      console.log("zikali");
       let canAccess = await checkIfHasAccess();
-      console.log("hello" + canAccess);
       //@ts-ignore
       setCanAccess(canAccess);
     }
@@ -37,7 +35,15 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
           <div className=""> you have Access </div>
         </div>
       ) : (
-        <div className="">you dont have access</div>
+        <div className="">
+          <div className="flex items-center justify-center h-screen bg-gray-100">
+            <div className="bg-white p-6 rounded-2xl shadow-xl">
+              <p className="text-xl font-semibold text-red-600">
+                You don't have access to this data Ask from Patient.
+              </p>
+            </div>
+          </div>
+        </div>
       )}
     </>
   );

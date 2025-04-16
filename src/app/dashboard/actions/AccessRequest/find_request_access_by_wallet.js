@@ -9,7 +9,7 @@ export default async function findRequestByWalletid(
 ) {
   try {
     await dbConnect();
-    console.log("xheicisisisi 3sz ")
+    
 
     let request = await AccessRequest.find({
       patientWalletId:patientWalletId
@@ -23,10 +23,8 @@ export default async function findRequestByWalletid(
         id: request._id.toString()
       }
     })
-    console.log(ressults)
+ 
     return  ressults
-
-  
 
     // console.log(createdRequest)
   } catch (error) {

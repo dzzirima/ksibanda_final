@@ -20,8 +20,6 @@ export default async function findUserByWalletId(userWalletId: string) {
       address: user?.address,
     };
 
-    console.log("found user", userDetails);
-   
     return userDetails;
   } catch (error) {
     console.log("error", error);
