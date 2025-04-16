@@ -1,34 +1,49 @@
+"use client";
 
-
-import findReferralsByPatientId from "@/app/dashboard/actions/referals/findReferalsByClientId";
-import findProfileByPatientId from "@/app/dashboard/actions/users/findProfileByPatientId";
-import UserStatistics from "@/app/dashboard/ui/Users/statistics";
-import Breadcrumbs from "@/app/dashboard/ui/utils/BreadCumps";
-import PersonalDetails from "@/app/dashboard/ui/utils/PersonalDetail";
-import Referral from "@/app/dashboard/ui/utils/Referral";
-import { Card, Divider, Typography } from "@mui/material";
-// import { fetchInvoiceById, fetchCustomers } from '@/app/lib/data';
-import { notFound } from "next/navigation";
+import { useEffect, useState } from "react";
+import findUserByWalletId from "../actions/users/findUserByWalletId";
+import Breadcrumbs from "../ui/utils/BreadCumps";
+import { Card, Divider } from "@mui/material";
+import PersonalDetails from "../ui/utils/PersonalDetail";
+import UserStatistics from "../ui/Users/statistics";
 import AccessrequestTable from "../ui/utils/AccessRequestTable";
 import findRequestByWalletid from "../actions/AccessRequest/find_request_access_by_wallet";
 
-export default async function Page(props: { params: Promise<{ id: string }> }) {
-  const params = await props.params;
 
-  //@ts-ignore
-    let accessRequests = await findRequestByWalletid("window.ethereum.selectedAddress")
+export default function Page() {
+
+const [patientDetails, setPatientDetails] = useState<any>(null);
+const [requestDetails, setRequestDetails] = useState<any>([]);
 
 
-  const patientId = params.id;
-  const [profile, refarreals] = await Promise.all([
-    findProfileByPatientId(10),
-    findReferralsByPatientId(1),
-  ]);
+  useEffect(() => {
 
-  if (!profile) {
-    notFound();
-  }
+ 
+    const getLoginUser = async () => {
+      try {
+        //@ts-ignore
+      let foundPatientDetails = await findUserByWalletId(window.ethereum.selectedAddress);
+
+      setPatientDetails(foundPatientDetails)
+
+
+      //@ts-ignore
+      let foundRequests = await findRequestByWalletid(window.ethereum.selectedAddress)
+      setRequestDetails(foundRequests)
+        
+      } catch (error) {
+        console.log("error", error);
+        
+      }
+      
+    };
+
+    getLoginUser();
+  }, []);
+
   return (
+
+
     <main>
       <Breadcrumbs
         breadcrumbs={[
@@ -42,16 +57,21 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
       />
 
       <Card className="p-4" elevation={1}>
+
+        {/* <div className="">  {JSON.stringify(patientDetails)}</div> */}
         <div className="flex flex-col md:flex-row">
           <div className="">
-            <PersonalDetails name="Jane" title="Name" />
-            <PersonalDetails name="test@gmail.com" title="email" />
-            <PersonalDetails title="Last Name" name="Zirima" />
-            <PersonalDetails title="Phone Number" name="0785395827" />
+             <PersonalDetails name= {(patientDetails?.["firstName"])} title="First Name" />
+
+
+            <PersonalDetails name= {(patientDetails?.['lastName']) } title="Last  Name"  /> 
+            <PersonalDetails name= {(patientDetails?.['email'])} title="email" />
+
+            <PersonalDetails  name=  {(patientDetails?.['phoneNumber'])}  title="Phone Number"/>
             <PersonalDetails
               title="Address"
-              name="39 Vanpraah Milton Park , Harare"
-            />
+              name={(patientDetails?.['address'])}
+            /> 
 
             <PersonalDetails
               title="Expected Delivery Date"
@@ -64,7 +84,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           </div>
 
           <div className="">
-            <UserStatistics />
+            {/* <UserStatistics /> */}
           </div>
         </div>
       </Card>
@@ -73,8 +93,9 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
       <div className=" m-3"> </div>
       <Divider> Reffarals</Divider>
       <Card>
-        <AccessrequestTable data={accessRequests}/>
+        <AccessrequestTable data={requestDetails}/>
       </Card>
     </main>
+    
   );
 }

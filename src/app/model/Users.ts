@@ -2,12 +2,13 @@
 import mongoose, { Document, Schema } from "mongoose";
 export interface IUsers extends Document {
     firstName: string;
-    lastName: number;
+    lastName: string;
     email: string;
     password: string;
     phoneNumber: string;
     address: string;
     role: string;
+    walletAddress: string;
 
 }
 

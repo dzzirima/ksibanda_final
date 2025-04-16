@@ -1,4 +1,4 @@
-'use server'
+"use server";
 import dbConnect from "@/app/lib/dbConnect";
 import AccessRequest from "@/app/model/AccessRequest";
 import { redirect } from "next/navigation";
@@ -9,21 +9,11 @@ export default async function findRequestByWalletid(
 ) {
   try {
     await dbConnect();
-
-    
-    // let c = window.ethereum.selectedAddress
-
-  
-
-    console.log("xheicisisisi 3sz")
-
- 
-   
+    console.log("xheicisisisi 3sz ")
 
     let request = await AccessRequest.find({
-      patientWalletId:'0x9665170f3789a48616987cc0c2BFFAa8F6e0A3F4'
+      patientWalletId:patientWalletId
     })
-
 
     let ressults  = request.map((request) =>{
       return{

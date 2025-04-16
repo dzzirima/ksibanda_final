@@ -67,3 +67,7 @@ export const addAccessor = async () => {
     console.error("Error calling contract function:", error);
   }
 };
+
+
+
+

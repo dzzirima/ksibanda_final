@@ -11,12 +11,11 @@ export default async function findPatientDetails() {
 
     for (let i = 0; i < users.length; i++) {
       let currentUser = users[i];
-let address = currentUser['walletAddress']
-     
+      let address = currentUser["walletAddress"];
 
       // get the mediaction infor
       const latestMedication = await Medication.findOne({
-        patientWalletAddress:address
+        patientWalletAddress: address,
       }).sort({ createdAt: -1 }); // Sort by createdAt descending
 
       let res = {};
@@ -35,8 +34,7 @@ let address = currentUser['walletAddress']
 
         console.log("No medication records found.");
       } else {
-
-        let lasVist = latestMedication.createdAt
+        let lasVist = latestMedication.createdAt;
         res = {
           email: currentUser.email,
           firstName: currentUser.firstName,
@@ -48,15 +46,11 @@ let address = currentUser['walletAddress']
           topic: latestMedication.topic,
         };
       }
-      result.push(res)
+      result.push(res);
     }
 
-    return result
-
-
+    return result;
   } catch (error) {
-    
-
     return [];
   }
 }
