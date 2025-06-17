@@ -1,4 +1,5 @@
 "use server";
+
 import dbConnect from "@/app/lib/dbConnect";
 import AccessRequest from "@/app/model/AccessRequest";
 import { redirect } from "next/navigation";
@@ -7,6 +8,8 @@ export default async function findRequestByWalletid(
   patientWalletId
  
 ) {
+
+  console.log("hello" + patientWalletId);
   try {
     await dbConnect();
     
@@ -28,6 +31,8 @@ export default async function findRequestByWalletid(
 
     // console.log(createdRequest)
   } catch (error) {
+
+    console.log("error while gett access");
     // If a database error occurs, return a more specific error.
     console.log(error)
 

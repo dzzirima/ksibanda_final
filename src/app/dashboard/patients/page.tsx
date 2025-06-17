@@ -8,6 +8,7 @@ import PersonalDetails from "../ui/utils/PersonalDetail";
 import UserStatistics from "../ui/Users/statistics";
 import AccessrequestTable from "../ui/utils/AccessRequestTable";
 import findRequestByWalletid from "../actions/AccessRequest/find_request_access_by_wallet";
+import { log } from "console";
 
 
 export default function Page() {
@@ -24,11 +25,24 @@ const [requestDetails, setRequestDetails] = useState<any>([]);
         //@ts-ignore
       let foundPatientDetails = await findUserByWalletId(window.ethereum.selectedAddress);
 
+
+      //@ts-ignore
+      console.log(window.ethereum.selectedAddress);
+
       setPatientDetails(foundPatientDetails)
 
 
+  
+
       //@ts-ignore
+      console.log( "helloe " + window.ethereum.selectedAddress);
+         //@ts-ignore
       let foundRequests = await findRequestByWalletid(window.ethereum.selectedAddress)
+    
+
+
+      console.log('sdsdtsdgstdsfdtsd ');
+      console.log(foundRequests);
       setRequestDetails(foundRequests)
         
       } catch (error) {

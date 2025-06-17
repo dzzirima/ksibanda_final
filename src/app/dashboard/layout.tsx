@@ -22,13 +22,17 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     setWallet(walletResponse.address);
   };
 
+  
 
    useEffect(() => {
       const fetchWalletAddress = async () => {
         const { address, status } = await getCurrentWalletConnected();
+
+     
+      
         setWallet(address);
         //@ts-ignore
-        setStatus(status);
+        // setStatus(status);
       };
   
       fetchWalletAddress();
