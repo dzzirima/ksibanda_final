@@ -1,7 +1,8 @@
 "use client";
 
+import { checkIfUserHasAccessToRecords } from "@/app/dashboard/patients/interact";
 import Test from "@/app/dashboard/patients/Test";
-import { checkIfHasAccess } from "@/app/dashboard/patients/test_scripts/test_new";
+// import { checkIfHasAccess } from "@/app/dashboard/patients/test_scripts/test_new";
 import { useEffect, useState } from "react";
 
 export default function Page(props: { params: Promise<{ id: string }> }) {
@@ -10,7 +11,28 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
   //@ts-ignore
   const patientId = params["id"];
 
-  const [canAccess, setCanAccess] = useState(true);
+  const [canAccess, setCanAccess] = useState(false);
+
+
+
+  // Check if the user has access to the patient's data
+  const checkIfHasAccess = async () => {
+      try {
+        const userHasAccess = await  checkIfUserHasAccessToRecords(patientId);
+
+        console.log("User has access:", userHasAccess);
+
+        if (userHasAccess.accessRes === true || userHasAccess.accessRes === "true") {
+          setCanAccess(true);
+        } else {
+          setCanAccess(false);
+        }
+      } catch (error) {
+        console.error("Error checking if user has minted:", error);
+        setCanAccess(false);
+      }
+    };
+
 
   useEffect(() => {
     async function checkIfcanAccess() {

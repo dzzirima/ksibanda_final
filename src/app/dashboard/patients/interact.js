@@ -210,3 +210,31 @@ export const checkIfUserHasMinted = async () => {
     };
   }
 };
+
+
+// checking if user has access to user records
+export const checkIfUserHasAccessToRecords = async (patientAddress) => {
+  window.contract = await new web3.eth.Contract(contractABI, contractAddress);
+
+  try {
+    const accessRes = await window.contract.methods
+      .canAcccess(patientAddress , window.ethereum.selectedAddress)
+      .call();
+
+
+
+    return {
+      success: true,
+      accessRes,
+    
+  
+    };
+  } catch (error) {
+    console.log(error);
+
+    return {
+      success: true,
+      accessRes,
+    };
+  }
+};
