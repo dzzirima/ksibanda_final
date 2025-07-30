@@ -10,6 +10,11 @@ export interface IUsers extends Document {
     role: string;
     walletAddress: string;
 
+    // Additional fields for NFT
+    pinataAddress?: string;
+    nftId?: string;
+    hasminted?: boolean;
+
 }
 
 const userSchema: Schema = new mongoose.Schema({
@@ -45,6 +50,21 @@ const userSchema: Schema = new mongoose.Schema({
         type: String,
      
     },
+
+    // Fields for NFT
+
+    pinataAddress: {
+        type: String,
+        default: null
+    },
+    nftId: {
+        type: String,
+        default: null
+    },
+    hasminted: {
+        type: Boolean,
+        default: false
+    }
 });
 
 const User = mongoose.models.User || mongoose.model<IUsers>('User', userSchema)

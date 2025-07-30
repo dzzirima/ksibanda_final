@@ -67,7 +67,10 @@ export async function createUserAction(prevState: State, formData: FormData) {
     console.log("formDataFields", formDataFields);
 
     await dbConnect();
-    const user = await User.create(formDataFields);
+    const user = await User.create({
+      ...formDataFields,
+      walletAddress: formDataFields.walletAddress.toLocaleLowerCase(),
+    });
 
   
   } catch (error) {

@@ -7,7 +7,7 @@ const alchemyKey =
 const web3 = createAlchemyWeb3(alchemyKey);
 
 const contractABI = require("./contract-abi.json");
-const contractAddress = "0x0149346eAaa208b65B338a5a5814B228C9030eBa";
+const contractAddress = "0xA206B4c1C89649c8a9a6458fadE195D7D9Af076e";
 
 export const connectWallet = async () => {
   if (window.ethereum) {
@@ -127,7 +127,7 @@ export const mintNFT = async (url, name, description) => {
   metadata.image = url;
   metadata.description = description;
 
-  console.log("from mintNFT");
+
 
   //pinata pin request
   const pinataResponse = await pinJSONToIPFS(metadata);
@@ -145,7 +145,7 @@ export const mintNFT = async (url, name, description) => {
 
   window.contract = await new web3.eth.Contract(contractABI, contractAddress);
 
-  console.log(" 1");
+ 
 
   const transactionParameters = {
     to: contractAddress, // Required except during contract publications.
@@ -181,40 +181,30 @@ export const mintNFT = async (url, name, description) => {
 
 // checking if patient has minted their NFT
 
-export const addAccessor_2 = async () => {
-  console.log("from checkIfAllowed");
-
+export const checkIfUserHasMinted = async () => {
   window.contract = await new web3.eth.Contract(contractABI, contractAddress);
 
-  console.log(" checking access !!");
-
-  const transactionParameters = {
-    to: contractAddress, // Required except during contract publications.
-    from: window.ethereum.selectedAddress, // must match user's active address.
-    data: window.contract.methods
-      .addAccessor(0, window.ethereum.selectedAddress)
-      .encodeABI(),
-  };
-
   try {
-    const txHash = await window.ethereum.request({
-      method: "eth_sendTransaction",
-      params: [transactionParameters],
-    });
+    const nftId = await window.contract.methods
+      .hasMinted(window.ethereum.selectedAddress)
+      .call();
 
-    console.log;
-    console.log(txHash);
+    // If nftId is 111, user has NOT minted
+    const hasMinted = nftId !== "111";
 
     return {
       success: true,
-      status:
-        "✅ Check out your transaction on Etherscan: https://sepolia.etherscan.io/tx/" +
-        txHash,
+      hasMinted,
+      nftId,
+      status: hasMinted
+        ? `✅ You have minted NFT with ID: ${nftId}`
+        : "❌ You have not minted an NFT yet.",
     };
   } catch (error) {
     console.log(error);
 
     return {
+      nftId: 111,
       success: false,
       status: "😥 Something went wrong: " + error.message,
     };
