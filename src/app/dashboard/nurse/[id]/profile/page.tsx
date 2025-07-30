@@ -1,5 +1,6 @@
 "use client";
 
+import requestAccess from "@/app/dashboard/actions/AccessRequest/request_access";
 import { checkIfUserHasAccessToRecords } from "@/app/dashboard/patients/interact";
 import Test from "@/app/dashboard/patients/Test";
 // import { checkIfHasAccess } from "@/app/dashboard/patients/test_scripts/test_new";
@@ -13,26 +14,41 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
 
   const [canAccess, setCanAccess] = useState(false);
 
-
-
   // Check if the user has access to the patient's data
   const checkIfHasAccess = async () => {
-      try {
-        const userHasAccess = await  checkIfUserHasAccessToRecords(patientId);
+    try {
+      const userHasAccess = await checkIfUserHasAccessToRecords(patientId);
 
-        console.log("User has access:", userHasAccess);
+      console.log("User has access:", userHasAccess);
 
-        if (userHasAccess.accessRes === true || userHasAccess.accessRes === "true") {
-          setCanAccess(true);
-        } else {
-          setCanAccess(false);
-        }
-      } catch (error) {
-        console.error("Error checking if user has minted:", error);
+      if (
+        userHasAccess.accessRes === true ||
+        userHasAccess.accessRes === "true"
+      ) {
+        setCanAccess(true);
+      } else {
         setCanAccess(false);
       }
-    };
+    } catch (error) {
+      console.error("Error checking if user has minted:", error);
+      setCanAccess(false);
+    }
+  };
 
+  //handle requesting access
+  const handleRequestAccess = async () => {
+
+    // @ts-ignore
+    let currentaddress = window.ethereum.selectedAddress;
+
+
+    try {
+      let responce = await requestAccess(currentaddress, patientId, "active");
+      console.log("Access request response:", responce);
+    } catch (error) {
+      console.error("Error requesting access:", error);
+    }
+  };
 
   useEffect(() => {
     async function checkIfcanAccess() {
@@ -60,7 +76,10 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
         <div className="">
           <div className="flex items-center justify-center h-screen bg-gray-100">
             <div className="bg-white p-6 rounded-2xl shadow-xl">
-              <button className="text-xl font-semibold text-red-600">
+              <button
+                onClick={handleRequestAccess}
+                className="text-xl font-semibold text-red-600"
+              >
                 You don't have access to this data Ask from Patient.
               </button>
             </div>
