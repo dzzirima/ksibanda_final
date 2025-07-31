@@ -1,8 +1,9 @@
 "use client";
 
 import requestAccess from "@/app/dashboard/actions/AccessRequest/request_access";
+import findReferralsByPatientId from "@/app/dashboard/actions/referals/findReferalsByClientId";
 import { checkIfUserHasAccessToRecords } from "@/app/dashboard/patients/interact";
-import Link from "next/link";
+
 import { useRouter } from "next/navigation";
 
 // import { checkIfHasAccess } from "@/app/dashboard/patients/test_scripts/test_new";
@@ -59,6 +60,11 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
       console.log("Can access from site:", canAccess);
       //@ts-ignore
       // setCanAccess(canAccess);
+
+      console.log("checking user  referral details for patient:", patientId);
+      // getting  patient details
+      let patientDetails = await findReferralsByPatientId(patientId);
+      console.log("Patient details:", patientDetails);
     }
 
     checkIfcanAccess();
@@ -105,14 +111,6 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
 
           <div className="bottomPart mt-5">
             <div className="flex flex-row">
-              <Link
-                key={"navigation-link-to-new-refferal"}
-                href={`/dashboard/referral/create`}
-                
-              >
-                
-              </Link>
-
               <div className="text-green-500">
                 <button
                   className="bg-blue-500 text-white px-4 py-2 rounded-md"
@@ -121,6 +119,10 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
                   New Refferal
                 </button>
               </div>
+            </div>
+
+            <div className="mt-5">
+              {/* <PatientReferralTableContainer patientId={patientId}/> */}
             </div>
           </div>
         </div>

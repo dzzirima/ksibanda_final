@@ -1,4 +1,3 @@
-
 import mongoose, { Document, Schema } from "mongoose";
 export interface IReferal extends Document {
     referalTo:String
@@ -59,7 +58,7 @@ const referalSchema: Schema = new mongoose.Schema({
         type: String,
      
     },
-});
+}, { timestamps: true });
 
 const Referal = mongoose.models.Referal || mongoose.model<IReferal>('Referal', referalSchema)
 
