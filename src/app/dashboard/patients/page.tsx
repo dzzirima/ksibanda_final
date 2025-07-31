@@ -9,19 +9,18 @@ import UserStatistics from "../ui/Users/statistics";
 import AccessrequestTable from "../ui/utils/AccessRequestTable";
 import findRequestByWalletid from "../actions/AccessRequest/find_request_access_by_wallet";
 import { mintNFT } from "./interact";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
   const [patientDetails, setPatientDetails] = useState<any>(null);
   const [requestDetails, setRequestDetails] = useState<any>([]);
-
-  
+  const router = useRouter();
 
   useEffect(() => {
     const getLoginUser = async () => {
       try {
         //@ts-ignore
         let foundPatientDetails = await findUserByWalletId(
-          
           window.ethereum.selectedAddress
         );
 
@@ -37,7 +36,7 @@ export default function Page() {
           window.ethereum.selectedAddress
         );
 
-        console.log("sdsdtsdgstdsfdtsd ");
+       
         console.log(foundRequests);
         setRequestDetails(foundRequests);
       } catch (error) {
@@ -62,10 +61,8 @@ export default function Page() {
       />
 
       <Card className="p-4" elevation={1}>
-       
-
         {/* <div className="">  {JSON.stringify(patientDetails)}</div> */}
-        <div className="flex flex-col md:flex-row">
+        <div className="flex flex-col md:flex-row justify-between">
           <div className="">
             <PersonalDetails
               name={patientDetails?.["firstName"]}
@@ -95,9 +92,22 @@ export default function Page() {
             <PersonalDetails title="Last Appoinment" name="29 June 2020" />
 
             <PersonalDetails title="Marital Status" name="Single" />
+
+            
           </div>
 
-          <div className="">{/* <UserStatistics /> */}</div>
+          <div className="">
+
+          <button
+              className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+              onClick={() =>
+                //@ts-ignore
+                router.push(`/dashboard/patients/${window.ethereum.selectedAddress}/profile`)
+              }
+            >
+              View My Refferals
+            </button>
+          </div>
         </div>
       </Card>
 
