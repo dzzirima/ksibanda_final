@@ -24,7 +24,7 @@ export default async function findReferralsByPatientId(patient: string) {
       referalDetails: ref.referalDetails,
       requestAccess: ref.requestAccess,
       clinicName: ref.clinicName,
-      createdAt: ref.createdAt,
+      createdAt: ref.createdAt.toString(),
     }));
 
 

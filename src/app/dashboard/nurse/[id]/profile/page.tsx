@@ -3,19 +3,20 @@
 import requestAccess from "@/app/dashboard/actions/AccessRequest/request_access";
 import findReferralsByPatientId from "@/app/dashboard/actions/referals/findReferalsByClientId";
 import { checkIfUserHasAccessToRecords } from "@/app/dashboard/patients/interact";
+import PatientReferralTable from "@/app/dashboard/ui/referral/ReferralTable";
 
+import { use, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 // import { checkIfHasAccess } from "@/app/dashboard/patients/test_scripts/test_new";
-import { useEffect, useState } from "react";
 
 export default function Page(props: { params: Promise<{ id: string }> }) {
-  const params = props.params;
+  const params = use(props.params); // Unwrap the params Promise
 
-  //@ts-ignore
-  const patientId = params["id"];
+  const patientId = params.id;
 
   const [canAccess, setCanAccess] = useState(false);
+  const [patientReferals, setSetPatientReferals] = useState([]);
 
   const router = useRouter();
 
@@ -61,10 +62,11 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
       //@ts-ignore
       // setCanAccess(canAccess);
 
-      console.log("checking user  referral details for patient:", patientId);
       // getting  patient details
       let patientDetails = await findReferralsByPatientId(patientId);
-      console.log("Patient details:", patientDetails);
+
+      //@ts-ignore
+      setSetPatientReferals(patientDetails);
     }
 
     checkIfcanAccess();
@@ -122,7 +124,7 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
             </div>
 
             <div className="mt-5">
-              {/* <PatientReferralTableContainer patientId={patientId}/> */}
+                <PatientReferralTable data={patientReferals}/>
             </div>
           </div>
         </div>
