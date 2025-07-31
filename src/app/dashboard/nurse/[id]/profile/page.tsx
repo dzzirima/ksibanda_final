@@ -2,7 +2,7 @@
 
 import requestAccess from "@/app/dashboard/actions/AccessRequest/request_access";
 import { checkIfUserHasAccessToRecords } from "@/app/dashboard/patients/interact";
-import Test from "@/app/dashboard/patients/Test";
+
 // import { checkIfHasAccess } from "@/app/dashboard/patients/test_scripts/test_new";
 import { useEffect, useState } from "react";
 
