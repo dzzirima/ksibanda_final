@@ -2,6 +2,8 @@
 
 import requestAccess from "@/app/dashboard/actions/AccessRequest/request_access";
 import { checkIfUserHasAccessToRecords } from "@/app/dashboard/patients/interact";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 // import { checkIfHasAccess } from "@/app/dashboard/patients/test_scripts/test_new";
 import { useEffect, useState } from "react";
@@ -14,6 +16,8 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
 
   const [canAccess, setCanAccess] = useState(false);
 
+  const router = useRouter();
+
   // Check if the user has access to the patient's data
   const checkIfHasAccess = async () => {
     try {
@@ -21,7 +25,10 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
 
       console.log("User has access:", userHasAccess);
 
-      if (userHasAccess.accessRes == true ||userHasAccess.accessRes == "true") {
+      if (
+        userHasAccess.accessRes == true ||
+        userHasAccess.accessRes == "true"
+      ) {
         setCanAccess(true);
       } else {
         setCanAccess(false);
@@ -34,10 +41,8 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
 
   //handle requesting access
   const handleRequestAccess = async () => {
-
     // @ts-ignore
     let currentaddress = window.ethereum.selectedAddress;
-
 
     try {
       let responce = await requestAccess(currentaddress, patientId, "active");
@@ -59,17 +64,65 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
     checkIfcanAccess();
   }, [patientId]);
 
+  // Example: navigate to referral page on button click
+  const goToReferral = () => {
+    router.push("/dashboard/referral/create");
+  };
+
   return (
     <>
       {/* <Test /> */}
 
       <div className="">
-        {JSON.stringify(patientId)}
-        {JSON.stringify(canAccess)}
+        {/* {JSON.stringify(patientId)}
+        {JSON.stringify(canAccess)} */}
       </div>
       {canAccess ? (
-        <div className="">
-          <div className=""> you have Access </div>
+        <div className=" ">
+          <div className="flex flex-row justify-between ">
+            <div className="border-2 border-green-500 bg-green-50 text-green-700 rounded-xl px-6 py-4 font-semibold shadow-sm flex items-center">
+              <svg
+                className="w-6 h-6 mr-2 text-green-500"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+              You have Full access to this user.
+            </div>
+            <div className="text-gray-500 font-mono">
+              {patientId
+                ? `${patientId.slice(0, 6)}...${patientId.slice(-3)}`
+                : ""}
+            </div>
+          </div>
+
+          <div className="bottomPart mt-5">
+            <div className="flex flex-row">
+              <Link
+                key={"navigation-link-to-new-refferal"}
+                href={`/dashboard/referral/create`}
+                
+              >
+                
+              </Link>
+
+              <div className="text-green-500">
+                <button
+                  className="bg-blue-500 text-white px-4 py-2 rounded-md"
+                  onClick={goToReferral}
+                >
+                  New Refferal
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       ) : (
         <div className="">
