@@ -1,7 +1,8 @@
 import { ethers } from "ethers";
 import CONTRACT_ABI from "../contract-abi.json";
 import approveRequestAccessDb, { revokeRequestAccessDb } from "../../actions/AccessRequest/approve_request_acces_db";
-const CONTRACT_ADDRESS = "0xA206B4c1C89649c8a9a6458fadE195D7D9Af076e";
+// const CONTRACT_ADDRESS = "0xA206B4c1C89649c8a9a6458fadE195D7D9Af076e";
+import { contractAddress as CONTRACT_ADDRESS   } from "../interact";
 
 // import dbConnect from "@/app/lib/dbConnect";
 // import AccessRequest from "@/app/model/AccessRequest";

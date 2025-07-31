@@ -7,7 +7,7 @@ const alchemyKey =
 const web3 = createAlchemyWeb3(alchemyKey);
 
 const contractABI = require("./contract-abi.json");
-const contractAddress = "0xA206B4c1C89649c8a9a6458fadE195D7D9Af076e";
+export const contractAddress = "0x75Cd039e8499d2acD791e72457Bb84e714B7603a";
 
 export const connectWallet = async () => {
   if (window.ethereum) {
@@ -217,8 +217,10 @@ export const checkIfUserHasAccessToRecords = async (patientAddress) => {
   window.contract = await new web3.eth.Contract(contractABI, contractAddress);
 
   try {
+
+    console.log("Checking access for patient address:", patientAddress , window.ethereum.selectedAddress);
     const accessRes = await window.contract.methods
-      .canAcccess(patientAddress , window.ethereum.selectedAddress)
+      .canAcccess( window.ethereum.selectedAddress , patientAddress )
       .call();
 
 
@@ -241,30 +243,7 @@ export const checkIfUserHasAccessToRecords = async (patientAddress) => {
 
 
 
-export const checkIfHasAccess = async () => {
-  const signer = await connectWallet();
-  if (!signer) return;
 
-  try {
-    // Connect to the contract
-    const contract = new ethers.Contract(
-      CONTRACT_ADDRESS,
-      CONTRACT_ABI,
-      signer
-    );
-
-    // Call the mint function
-    
-  
-    const tx = await contract.canAcccess(window.ethereum.selectedAddress ,window.ethereum.selectedAddress )
-    console.log("Transaction details:" + tx.toString());
-    return tx;
-
-  } catch (error) {
-    console.error("Error calling contract function:", error);
-    return false;
-  }
-};
 
 
 export const addAccessor = async (requestorWalletId,patientWalletId) => {

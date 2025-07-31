@@ -5,6 +5,10 @@ import NavLinks from "@/app/dashboard/ui/sidenav/NavLinks";
 import { PowerIcon } from "@heroicons/react/24/outline";
 
 export default function SideNav() {
+
+
+
+
   return (
     <div className="flex h-full flex-col px-3 py-1 md:px-2">
       <Link

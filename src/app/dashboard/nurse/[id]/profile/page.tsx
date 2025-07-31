@@ -21,7 +21,9 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
   const router = useRouter();
 
   // Check if the user has access to the patient's data
-  const checkIfHasAccess = async () => {
+  const checkIfHasAccessCurrentLoginHasAccesss = async () => {
+
+ 
     try {
       const userHasAccess = await checkIfUserHasAccessToRecords(patientId);
 
@@ -56,7 +58,7 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
 
   useEffect(() => {
     async function checkIfcanAccess() {
-      let canAccess = await checkIfHasAccess();
+      let canAccess = await checkIfHasAccessCurrentLoginHasAccesss();
 
       console.log("Can access from site:", canAccess);
       //@ts-ignore

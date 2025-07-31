@@ -22,6 +22,8 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
 
   // Check if the user has access to the patient's data
   const checkIfHasAccess = async () => {
+
+    console.log("Checking if user has access to records for patient:", patientId);
     try {
       const userHasAccess = await checkIfUserHasAccessToRecords(patientId);
 
