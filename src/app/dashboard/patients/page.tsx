@@ -21,6 +21,7 @@ export default function Page() {
       try {
         //@ts-ignore
         let foundPatientDetails = await findUserByWalletId(
+          
           window.ethereum.selectedAddress
         );
 
@@ -102,7 +103,7 @@ export default function Page() {
 
       {/* <Form invoice={invoice} customers={customers} /> */}
       <div className=" m-3"> </div>
-      <Divider> Reffarals</Divider>
+      <Divider> Access Requests</Divider>
       <Card>
         <AccessrequestTable data={requestDetails} />
       </Card>

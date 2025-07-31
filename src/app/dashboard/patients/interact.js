@@ -238,3 +238,64 @@ export const checkIfUserHasAccessToRecords = async (patientAddress) => {
     };
   }
 };
+
+
+
+export const checkIfHasAccess = async () => {
+  const signer = await connectWallet();
+  if (!signer) return;
+
+  try {
+    // Connect to the contract
+    const contract = new ethers.Contract(
+      CONTRACT_ADDRESS,
+      CONTRACT_ABI,
+      signer
+    );
+
+    // Call the mint function
+    
+  
+    const tx = await contract.canAcccess(window.ethereum.selectedAddress ,window.ethereum.selectedAddress )
+    console.log("Transaction details:" + tx.toString());
+    return tx;
+
+  } catch (error) {
+    console.error("Error calling contract function:", error);
+    return false;
+  }
+};
+
+
+export const addAccessor = async (requestorWalletId,patientWalletId) => {
+  const signer = await connectWallet();
+  if (!signer) return;
+
+  try {
+    // Connect to the contract
+    const contract = new ethers.Contract(
+      contractAddress,
+      contractABI,
+      signer
+    );
+
+    // Call the mint function
+    const tx = await contract.addAccessors(requestorWalletId, window.ethereum.selectedAddress);
+
+    console.log(tx);
+
+    console.log("Transaction confirmed:", tx);
+    
+
+    let upUpdateRes = await  approveRequestAccessDb(requestorWalletId,patientWalletId);
+    return "Access granted successfully";
+
+
+    // upate db 
+   
+
+  } catch (error) {
+    console.error("Error granting access", error);
+    return "Error granting access";
+  }
+};

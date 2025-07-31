@@ -27,3 +27,29 @@ export default async function approveRequestAccessDb(requestorWalletId:string,pa
     };
   }
 }
+
+
+
+export  async function revokeRequestAccessDb(requestorWalletId:string,patientWalletId:string) {
+  try {
+    await dbConnect();
+
+  
+
+    // update the database
+    await AccessRequest.updateOne(
+      { requestorWalletId, patientWalletId },
+      { $set: { status: "revoked" } }
+    );
+   
+    
+    // console.log(createdRequest)
+  } catch (error) {
+    // If a database error occurs, return a more specific error.
+    console.log( "error while editing permision" +error);
+    return {
+      errors: {},
+      message: "Database Error: Failed to Approve .",
+    };
+  }
+}

@@ -21,10 +21,7 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
 
       console.log("User has access:", userHasAccess);
 
-      if (
-        userHasAccess.accessRes === true ||
-        userHasAccess.accessRes === "true"
-      ) {
+      if (userHasAccess.accessRes == true ||userHasAccess.accessRes == "true") {
         setCanAccess(true);
       } else {
         setCanAccess(false);
@@ -53,8 +50,10 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
   useEffect(() => {
     async function checkIfcanAccess() {
       let canAccess = await checkIfHasAccess();
+
+      console.log("Can access from site:", canAccess);
       //@ts-ignore
-      setCanAccess(canAccess);
+      // setCanAccess(canAccess);
     }
 
     checkIfcanAccess();

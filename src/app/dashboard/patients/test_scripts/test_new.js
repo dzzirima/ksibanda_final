@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 import CONTRACT_ABI from "../contract-abi.json";
-import approveRequestAccessDb from "../../actions/AccessRequest/approve_request_acces_db";
-const CONTRACT_ADDRESS = "0x217adeA111aC371396067faA52E59d9E440B2079";
+import approveRequestAccessDb, { revokeRequestAccessDb } from "../../actions/AccessRequest/approve_request_acces_db";
+const CONTRACT_ADDRESS = "0xA206B4c1C89649c8a9a6458fadE195D7D9Af076e";
 
 // import dbConnect from "@/app/lib/dbConnect";
 // import AccessRequest from "@/app/model/AccessRequest";
@@ -86,6 +86,39 @@ export const addAccessor = async (requestorWalletId,patientWalletId) => {
   }
 };
 
+
+export const revokeAccessor = async (requestorWalletId,patientWalletId) => {
+  const signer = await connectWallet();
+  if (!signer) return;
+
+  try {
+    // Connect to the contract
+    const contract = new ethers.Contract(
+      CONTRACT_ADDRESS,
+      CONTRACT_ABI,
+      signer
+    );
+
+    // Call the mint function
+    const tx = await contract.removeAccessor(requestorWalletId, window.ethereum.selectedAddress);
+
+    console.log(tx);
+
+    console.log("Transaction confirmed:", tx);
+    
+
+    let upUpdateRes = await  revokeRequestAccessDb(requestorWalletId,patientWalletId);
+    return "Access Revoked successfully";
+
+
+    // upate db 
+   
+
+  } catch (error) {
+    console.error("Error granting access", error);
+    return "Error granting access";
+  }
+};
 
 
 
