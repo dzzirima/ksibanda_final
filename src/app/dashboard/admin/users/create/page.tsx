@@ -8,7 +8,7 @@ export default function AdminPage() {
     <div className="flex flex-col">
       <CreateUser/>
 
-      <ListOfUsers users={}/>
+      <ListOfUsers users={[]}/>
     </div>
   )
 }
