@@ -41,19 +41,23 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      {walletAddress.length  ? (
-         <div className="flex h-screen flex-col md:flex-row md:overflow-hidden">
-      <div className="w-full flex-none md:w-64">
-        <SideNav />
-      </div>
-      <div className="grow p-6 md:overflow-y-auto md:p-12">{children}</div>
-    </div>
+      {!walletAddress.length ? (
+        <div className="flex h-screen items-center justify-center">
+          <button
+            id="walletButton"
+            onClick={connectWalletPressed}
+            className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium text-lg"
+          >
+            <span>Connect Your MetaMask Wallet</span>
+          </button>
+        </div>
       ) : (
-        <button id="walletButton" onClick={connectWalletPressed}>
-        
-          <span>Connect Wallet</span>
-       
-      </button>
+        <div className="flex h-screen flex-col md:flex-row md:overflow-hidden">
+          <div className="w-full flex-none md:w-64">
+            <SideNav />
+          </div>
+          <div className="grow p-6 md:overflow-y-auto md:p-12">{children}</div>
+        </div>
       )}
     </>
 
