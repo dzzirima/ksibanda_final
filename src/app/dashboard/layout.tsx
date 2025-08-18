@@ -3,52 +3,45 @@
 import SideNav from "@/app/dashboard/ui/sidenav/sidenav";
 import ConnectWallet from "@/app/dashboard/ui/dashboard/ConnectWallet";
 
-import {
-  connectWallet,
-  getCurrentWalletConnected,
- 
-} from "@/app/dashboard/patients/interact";
+
 import { useEffect, useState } from "react";
+import { getCurrentLoginUser } from "./actions/auth/getCurrentLoginUser";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-   const [walletAddress, setWallet] = useState("");
+   const [user, setUser] = useState("");
 
 
-   const connectWalletPressed = async () => {
-    //TODO: implement
-    const walletResponse = await connectWallet();
-    //@ts-ignore
-    setStatus(walletResponse.status);
-    setWallet(walletResponse.address);
-  };
+  
 
   
 
    useEffect(() => {
-      const fetchWalletAddress = async () => {
-        const { address, status } = await getCurrentWalletConnected();
-
-     
-
-        setWallet(address);
+      const currentLoginUser = async () => {
+        const userRes  = await getCurrentLoginUser();
+       
+        setUser(userRes);
         //@ts-ignore
         // setStatus(status);
       };
   
-      fetchWalletAddress();
+      currentLoginUser();
     }, []);
 
 
+
+    
+
   return (
     <>
-      {!walletAddress.length ? (
+      {!user ? (
         <div className="flex h-screen items-center justify-center">
           <button
             id="walletButton"
-            onClick={connectWalletPressed}
+            onClick={() => window.location.href = "/login"}
+           
             className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium text-lg"
           >
-            <span>Connect Your MetaMask Wallet</span>
+            <span> Login to your account</span>
           </button>
         </div>
       ) : (
