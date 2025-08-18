@@ -11,7 +11,28 @@ export default function LoginPage() {
 
     let res = await signInAction(initialState, formData);
 
-    console.log("hello from login action 2 :" , res);
+
+    if (res.success) {
+      alert(res.message || "Login successful!");
+
+      // Store user data in local storage
+      localStorage.setItem("user", JSON.stringify(res.user)); 
+
+      // Redirect to dashboard
+      window.location.href = "/dashboard";
+    } else if (res.errors) {
+      // Display validation errors
+      alert(
+        Object.values(res.errors)
+          .flat()
+          .join(", ") || "Login failed. Please check your input."
+      );
+    
+    }else {
+      alert(res.message || "Login failed. Please try again.");
+    }
+
+  
 
     // print the data from the form
 

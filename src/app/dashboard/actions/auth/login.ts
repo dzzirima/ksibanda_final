@@ -30,7 +30,7 @@ export async function signInAction(prevState: State, formData: FormData) {
  
   const rawDataFromEntries = Object.fromEntries(formData.entries());
 
-  console.log(rawDataFromEntries);
+  
 
   const validateFields = Create.safeParse(rawDataFromEntries);
 
@@ -53,6 +53,9 @@ export async function signInAction(prevState: State, formData: FormData) {
     });
 
 
+    
+
+
     //check if user exists
     if (!foundUser) {
       return {
@@ -66,11 +69,19 @@ export async function signInAction(prevState: State, formData: FormData) {
 
     // if user exist store user in local storage
 
+    let userData = {
+      id: foundUser._id.toString(),
+      email: foundUser.email,
+      name: foundUser.name,
+      lastName: foundUser.lastName,
+      role: foundUser.role,
+    };
+
     return {
       success: true,
         errors: {},
         message: "successfully logged in",
-        user: foundUser.toObject(),
+        user: userData,
       };
 
   } catch (error) {
