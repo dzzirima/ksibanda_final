@@ -128,8 +128,13 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
               You have Full access to this user.
             </div>
             <div className="text-gray-500 font-mono">
-              {patientId
-                ? `${patientId.slice(0, 6)}...${patientId.slice(-3)}`
+              {/* {currentLoggedInUser
+                ? `${currentLoggedInUser.id.slice(0, 6)}...${patientId.slice(-3)}`
+                : ""} */}
+
+                 {currentLoggedInUser
+                 //@ts-ignore
+                ? `${currentLoggedInUser.firstName}`
                 : ""}
             </div>
           </div>
