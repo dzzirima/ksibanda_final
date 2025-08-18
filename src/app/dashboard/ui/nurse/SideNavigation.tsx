@@ -11,6 +11,7 @@ interface IUser {
   lastName: string;
   role: string;
   walletAddress: string;
+  id: string;
 }
 
 
@@ -36,8 +37,8 @@ export default async function NurseSideNav({
       {users.map((patient) => {
         return (
           <Link
-            key={`${patient.walletAddress}`}
-            href={`nurse/${patient.walletAddress}/profile`}
+            key={`${patient.id}`}
+            href={`nurse/${patient.id}/profile`}
             className={clsx(
               "flex h-[48px] grow items-center justify-center gap-1 rounded-md bg-blue-100 p-1 m-1 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-1 md:px-1"
               //   {

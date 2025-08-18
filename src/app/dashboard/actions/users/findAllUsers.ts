@@ -13,6 +13,7 @@ export default async function findAllUsers() {
         lastName: user.lastName,
         role: user.role,
         walletAddress: user.walletAddress,
+        id: user._id.toString(),
       };
     });
 

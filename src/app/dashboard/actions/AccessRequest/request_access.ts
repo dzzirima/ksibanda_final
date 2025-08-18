@@ -4,16 +4,18 @@ import AccessRequest from "@/app/model/AccessRequest";
 import { redirect } from "next/navigation";
 
 export default async function requestAccess(
-  requestorWalletId: String,
-  patientWalletId: String,
+  requestorId: String,
+  patientId: String,
   status:string
 ) {
   try {
+
+    console.log("Requesting access for patient:", patientId + " by user:", requestorId);
     await dbConnect();
 
     let createdRequest = await AccessRequest.create({
-      requestorWalletId,
-      patientWalletId,
+      requestorWalletId:requestorId,
+      patientWalletId:patientId,
       status
     });
 

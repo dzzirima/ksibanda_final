@@ -7,6 +7,9 @@ import PatientReferralTable from "@/app/dashboard/ui/referral/ReferralTable";
 
 import { use, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { get } from "http";
+import { getCurrentLoginUser } from "@/app/dashboard/actions/auth/getCurrentLoginUser";
+import { set } from "mongoose";
 
 // import { checkIfHasAccess } from "@/app/dashboard/patients/test_scripts/test_new";
 
@@ -17,6 +20,11 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
 
   const [canAccess, setCanAccess] = useState(false);
   const [patientReferals, setSetPatientReferals] = useState([]);
+
+  const[currentLoggedInUser, setCurrentLoggedInUser] = useState(null);
+
+
+
 
   const router = useRouter();
 
@@ -46,7 +54,9 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
   //handle requesting access
   const handleRequestAccess = async () => {
     // @ts-ignore
-    let currentaddress = window.ethereum.selectedAddress;
+    let currentaddress = currentLoggedInUser?.id
+
+    console.log("Current address:", currentaddress);
 
     try {
       let responce = await requestAccess(currentaddress, patientId, "active");
@@ -56,8 +66,20 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
     }
   };
 
+  
+
   useEffect(() => {
     async function checkIfcanAccess() {
+
+      //getting current logged in user
+      let currentUser = await getCurrentLoginUser();
+
+      console.log(currentUser);
+      setCurrentLoggedInUser(currentUser);
+
+      
+
+
       let canAccess = await checkIfHasAccessCurrentLoginHasAccesss();
 
       console.log("Can access from site:", canAccess);
