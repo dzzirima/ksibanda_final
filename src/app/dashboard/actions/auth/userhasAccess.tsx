@@ -11,7 +11,7 @@ export const checkIfUserHasAccessToRecordsFromDb = async (requestorId:string, pa
       let res = await  AccessRequest.findOne({
         requestorWalletId: requestorId,
         patientWalletId: patientId,
-        status: "active",
+        status: "approved",
       });
 
         if (res) {

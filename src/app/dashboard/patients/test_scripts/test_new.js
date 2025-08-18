@@ -59,24 +59,10 @@ export const addAccessor = async (requestorWalletId,patientWalletId) => {
   if (!signer) return;
 
   try {
-    // Connect to the contract
-    const contract = new ethers.Contract(
-      CONTRACT_ADDRESS,
-      CONTRACT_ABI,
-      signer
-    );
-
-    // Call the mint function
-    const tx = await contract.addAccessors(requestorWalletId, window.ethereum.selectedAddress);
-
-    console.log(tx);
-
-    console.log("Transaction confirmed:", tx);
-    
+ 
 
     let upUpdateRes = await  approveRequestAccessDb(requestorWalletId,patientWalletId);
-    return "Access granted successfully";
-
+    return "Access granted successfully , refresh your browser to view status";
 
     // upate db 
    
@@ -89,27 +75,27 @@ export const addAccessor = async (requestorWalletId,patientWalletId) => {
 
 
 export const revokeAccessor = async (requestorWalletId,patientWalletId) => {
-  const signer = await connectWallet();
-  if (!signer) return;
+  // const signer = await connectWallet();
+  // if (!signer) return;
 
   try {
     // Connect to the contract
-    const contract = new ethers.Contract(
-      CONTRACT_ADDRESS,
-      CONTRACT_ABI,
-      signer
-    );
+    // const contract = new ethers.Contract(
+    //   CONTRACT_ADDRESS,
+    //   CONTRACT_ABI,
+    //   signer
+    // );
 
-    // Call the mint function
-    const tx = await contract.removeAccessor(requestorWalletId, window.ethereum.selectedAddress);
+   
+    // const tx = await contract.removeAccessor(requestorWalletId, window.ethereum.selectedAddress);
 
-    console.log(tx);
+    // console.log(tx);
 
-    console.log("Transaction confirmed:", tx);
+    // console.log("Transaction confirmed:", tx);
     
 
     let upUpdateRes = await  revokeRequestAccessDb(requestorWalletId,patientWalletId);
-    return "Access Revoked successfully";
+    return "Access Revoked successfully , refresh your browser to view status";
 
 
     // upate db 

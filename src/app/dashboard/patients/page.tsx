@@ -68,7 +68,7 @@ export default function Page() {
         <div className="flex flex-col md:flex-row justify-between">
           <div className="">
             <PersonalDetails
-              name={patientDetails?.["name"]}
+              name={patientDetails?.["firstName"]}
               title="First Name"
             />
 
@@ -105,7 +105,7 @@ export default function Page() {
               className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
               onClick={() =>
                 //@ts-ignore
-                router.push(`/dashboard/patients/${window.ethereum.selectedAddress}/profile`)
+                router.push(`/dashboard/patients/${patientDetails.id}/profile`)
               }
             >
               View My Refferals

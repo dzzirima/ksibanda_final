@@ -7,6 +7,8 @@ import PatientReferralTable from "@/app/dashboard/ui/referral/ReferralTable";
 
 import { use, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { checkIfUserHasAccessToRecordsFromDb } from "@/app/dashboard/actions/auth/userhasAccess";
+import { getCurrentLoginUser } from "@/app/dashboard/actions/auth/getCurrentLoginUser";
 
 // import { checkIfHasAccess } from "@/app/dashboard/patients/test_scripts/test_new";
 
@@ -18,6 +20,8 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
   const [canAccess, setCanAccess] = useState(false);
   const [patientReferals, setSetPatientReferals] = useState([]);
 
+  const [ currentlyLoginUser , setCurrentLoginUser] = useState(null)
+
   const router = useRouter();
 
   // Check if the user has access to the patient's data
@@ -25,13 +29,15 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
 
     console.log("Checking if user has access to records for patient:", patientId);
     try {
-      const userHasAccess = await checkIfUserHasAccessToRecords(patientId);
+      // const userHasAccess = await checkIfUserHasAccessToRecords(patientId);
+     
+      //@ts-ignore
+      const userHasAccess = await   checkIfUserHasAccessToRecordsFromDb(currentlyLoginUser?.id, patientId)
 
       console.log("User has access:", userHasAccess);
 
       if (
-        userHasAccess.accessRes == true ||
-        userHasAccess.accessRes == "true"
+        userHasAccess.accessRes == true
       ) {
         setCanAccess(true);
       } else {
@@ -46,7 +52,7 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
   //handle requesting access
   const handleRequestAccess = async () => {
     // @ts-ignore
-    let currentaddress = window.ethereum.selectedAddress;
+    let currentaddress = currentlyLoginUser.id
 
     try {
       let responce = await requestAccess(currentaddress, patientId, "active");
@@ -58,10 +64,17 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
 
   useEffect(() => {
     async function checkIfcanAccess() {
-      let canAccess = await checkIfHasAccess();
 
-      console.log("Can access from site:", canAccess);
-      //@ts-ignore
+
+      if( currentlyLoginUser == null){
+        let currentloged = await getCurrentLoginUser()
+
+      setCurrentLoginUser(currentloged)
+
+      }else{
+        let canAccess = await checkIfHasAccess();
+
+         //@ts-ignore
       // setCanAccess(canAccess);
 
       // getting  patient details
@@ -69,10 +82,13 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
 
       //@ts-ignore
       setSetPatientReferals(patientDetails);
+
+      }
+      
     }
 
     checkIfcanAccess();
-  }, [patientId]);
+  }, [currentlyLoginUser]);
 
   // Example: navigate to referral page on button click
   const goToReferral = () => {
@@ -84,8 +100,8 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
       {/* <Test /> */}
 
       <div className="">
-        {/* {JSON.stringify(patientId)}
-        {JSON.stringify(canAccess)} */}
+        {/* {JSON.stringify(currentlyLoginUser)} */}
+        {/* {JSON.stringify(canAccess)} */}
       </div>
       {canAccess ? (
         <div className=" ">

@@ -9,7 +9,7 @@ export default function HomePage() {
 
   
 
-  const [hasMinted, setMint] = useState<boolean>(false);
+  const [hasMinted, setMint] = useState<boolean>(true);
 
   //mintnft
   const handleMint = async () => {
@@ -46,7 +46,7 @@ useEffect(() => {
     const fetchData = async () => {
       await checkIfUserMinted();
     };
-    fetchData();
+    // fetchData();
   }, []); 
 
 
