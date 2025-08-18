@@ -13,3 +13,14 @@ export const getCurrentLoginUser = async () => {
     return null;
   }
 }
+
+
+// funtion to logout user
+export const logoutUser = () => {
+  try {
+    localStorage.removeItem("user");
+    window.location.href = "/login"; // Redirect to login page
+  } catch (error) {
+    console.error("Error logging out user:", error);
+  }
+}

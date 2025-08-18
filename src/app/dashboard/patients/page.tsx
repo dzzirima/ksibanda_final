@@ -10,6 +10,7 @@ import AccessrequestTable from "../ui/utils/AccessRequestTable";
 import findRequestByWalletid from "../actions/AccessRequest/find_request_access_by_wallet";
 import { mintNFT } from "./interact";
 import { useRouter } from "next/navigation";
+import { getCurrentLoginUser } from "../actions/auth/getCurrentLoginUser";
 
 export default function Page() {
   const [patientDetails, setPatientDetails] = useState<any>(null);
@@ -20,9 +21,7 @@ export default function Page() {
     const getLoginUser = async () => {
       try {
         //@ts-ignore
-        let foundPatientDetails = await findUserByWalletId(
-          window.ethereum.selectedAddress
-        );
+        let foundPatientDetails = await getCurrentLoginUser();
 
         //@ts-ignore
         console.log(window.ethereum.selectedAddress);
@@ -65,7 +64,7 @@ export default function Page() {
         <div className="flex flex-col md:flex-row justify-between">
           <div className="">
             <PersonalDetails
-              name={patientDetails?.["firstName"]}
+              name={patientDetails?.["name"]}
               title="First Name"
             />
 

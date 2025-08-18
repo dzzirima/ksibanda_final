@@ -72,8 +72,10 @@ export async function signInAction(prevState: State, formData: FormData) {
     let userData = {
       id: foundUser._id.toString(),
       email: foundUser.email,
-      name: foundUser.firstName,
+      firstName: foundUser.firstName,
       lastName: foundUser.lastName,
+      address: foundUser.address,
+      phoneNumber: foundUser.phoneNumber,
       role: foundUser.role,
     };
 

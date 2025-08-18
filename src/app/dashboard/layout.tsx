@@ -10,11 +10,7 @@ import { getCurrentLoginUser } from "./actions/auth/getCurrentLoginUser";
 export default function Layout({ children }: { children: React.ReactNode }) {
    const [user, setUser] = useState("");
 
-
   
-
-  
-
    useEffect(() => {
       const currentLoginUser = async () => {
         const userRes  = await getCurrentLoginUser();

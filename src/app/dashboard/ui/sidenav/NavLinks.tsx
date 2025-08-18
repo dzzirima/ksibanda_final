@@ -13,6 +13,7 @@ import { usePathname } from "next/navigation";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 import findUserByWalletId from "../../actions/users/findUserByWalletId";
+import { getCurrentLoginUser } from "../../actions/auth/getCurrentLoginUser";
 
 // Map of links to display in the side navigation.
 // Depending on the size of the application, this would be stored in a database.
@@ -76,12 +77,8 @@ export default function NavLinks() {
     const getLoginUser = async () => {
       try {
         //@ts-ignore
-        let foundPatientDetails = await findUserByWalletId(
-          window.ethereum.selectedAddress
-        );
+        let foundPatientDetails = await getCurrentLoginUser()
 
-        //@ts-ignore
-        console.log("from nav links : " + foundPatientDetails?.role);
 
         setUserDetails(foundPatientDetails);
       } catch (error) {
