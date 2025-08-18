@@ -24,3 +24,5 @@ export const logoutUser = () => {
     console.error("Error logging out user:", error);
   }
 }
+
+

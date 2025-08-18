@@ -9,7 +9,9 @@ export default async function findRequestByWalletid(
  
 ) {
 
-  console.log("hello" + patientWalletId);
+  console.log("patient  id +" + patientWalletId);
+
+
   try {
     await dbConnect();
     

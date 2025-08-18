@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { get } from "http";
 import { getCurrentLoginUser } from "@/app/dashboard/actions/auth/getCurrentLoginUser";
 import { set } from "mongoose";
+import { checkIfUserHasAccessToRecordsFromDb } from "@/app/dashboard/actions/auth/userhasAccess";
 
 // import { checkIfHasAccess } from "@/app/dashboard/patients/test_scripts/test_new";
 
@@ -33,20 +34,22 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
 
  
     try {
-      const userHasAccess = await checkIfUserHasAccessToRecords(patientId);
+      // const userHasAccess = await checkIfUserHasAccessToRecords(patientId);
+
+      //@ts-ignore
+       const userHasAccess = await checkIfUserHasAccessToRecordsFromDb(currentLoggedInUser?.id, patientId); 
 
       console.log("User has access:", userHasAccess);
 
       if (
-        userHasAccess.accessRes == true ||
-        userHasAccess.accessRes == "true"
+        userHasAccess.accessRes == true 
       ) {
         setCanAccess(true);
       } else {
         setCanAccess(false);
       }
     } catch (error) {
-      console.error("Error checking if user has minted:", error);
+      console.error("Error checking if user has access to data", error);
       setCanAccess(false);
     }
   };
@@ -74,15 +77,11 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
       //getting current logged in user
       let currentUser = await getCurrentLoginUser();
 
-      console.log(currentUser);
       setCurrentLoggedInUser(currentUser);
-
-      
-
 
       let canAccess = await checkIfHasAccessCurrentLoginHasAccesss();
 
-      console.log("Can access from site:", canAccess);
+    
       //@ts-ignore
       // setCanAccess(canAccess);
 

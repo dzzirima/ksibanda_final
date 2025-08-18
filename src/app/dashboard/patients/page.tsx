@@ -23,17 +23,21 @@ export default function Page() {
         //@ts-ignore
         let foundPatientDetails = await getCurrentLoginUser();
 
-        //@ts-ignore
-        console.log(window.ethereum.selectedAddress);
 
-        setPatientDetails(foundPatientDetails);
+        if(patientDetails == null) {
+          //@ts-ignore
+          setPatientDetails(foundPatientDetails);
+        }
 
-        //@ts-ignore
-        console.log("helloe " + window.ethereum.selectedAddress);
+        
+        
+
         //@ts-ignore
         let foundRequests = await findRequestByWalletid(
-          window.ethereum.selectedAddress
+          patientDetails?.id
         );
+
+        console.log(foundPatientDetails);
 
        
         console.log(foundRequests);
@@ -44,7 +48,7 @@ export default function Page() {
     };
 
     getLoginUser();
-  }, []);
+  }, [patientDetails]);
 
   return (
     <main>
