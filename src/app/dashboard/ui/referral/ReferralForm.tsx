@@ -2,13 +2,7 @@
 
 import SubmitButton from "@/app/dashboard/ui/utils/SubmitButton";
 import {
-  Checkbox,
   Divider,
-  FormControl,
-  FormControlLabel,
-  InputLabel,
-  MenuItem,
-  Select,
   TextField,
   Typography,
 } from "@mui/material";
@@ -53,7 +47,7 @@ export default function ReferralForm({ users }: { users: any }) {
             Select Patient
           </option>
           {users.map((user: any) => (
-            <option key={user.walletAddress} value={user.walletAddress}>
+            <option key={user.id} value={user.id}>
               {user.firstName + " " + user.lastName}
             </option>
           ))}

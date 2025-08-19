@@ -2,14 +2,11 @@
 
 import requestAccess from "@/app/dashboard/actions/AccessRequest/request_access";
 import findReferralsByPatientId from "@/app/dashboard/actions/referals/findReferalsByClientId";
-import { checkIfUserHasAccessToRecords } from "@/app/dashboard/patients/interact";
 import PatientReferralTable from "@/app/dashboard/ui/referral/ReferralTable";
 
 import { use, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { get } from "http";
 import { getCurrentLoginUser } from "@/app/dashboard/actions/auth/getCurrentLoginUser";
-import { set } from "mongoose";
 import { checkIfUserHasAccessToRecordsFromDb } from "@/app/dashboard/actions/auth/userhasAccess";
 
 // import { checkIfHasAccess } from "@/app/dashboard/patients/test_scripts/test_new";
@@ -24,9 +21,6 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
 
   const[currentLoggedInUser, setCurrentLoggedInUser] = useState(null);
 
-
-
-
   const router = useRouter();
 
   // Check if the user has access to the patient's data
@@ -35,6 +29,8 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
  
     try {
       // const userHasAccess = await checkIfUserHasAccessToRecords(patientId);
+
+      console.log("Checking if user has access to records for patient:", patientId);
 
       //@ts-ignore
        const userHasAccess = await checkIfUserHasAccessToRecordsFromDb(currentLoggedInUser?.id, patientId); 
@@ -75,17 +71,15 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
     async function checkIfcanAccess() {
 
       //getting current logged in user
-      let currentUser = await getCurrentLoginUser();
 
-      setCurrentLoggedInUser(currentUser);
+      if(currentLoggedInUser == null){
+        let currentUser = await getCurrentLoginUser();
+        setCurrentLoggedInUser(currentUser);
 
-      let canAccess = await checkIfHasAccessCurrentLoginHasAccesss();
-
+      }
     
-      //@ts-ignore
-      // setCanAccess(canAccess);
-
-      // getting  patient details
+      let canAccess = await checkIfHasAccessCurrentLoginHasAccesss();
+      
       let patientDetails = await findReferralsByPatientId(patientId);
 
       //@ts-ignore
@@ -93,7 +87,7 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
     }
 
     checkIfcanAccess();
-  }, [patientId]);
+  }, [currentLoggedInUser]);
 
   // Example: navigate to referral page on button click
   const goToReferral = () => {
@@ -105,7 +99,7 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
       {/* <Test /> */}
 
       <div className="">
-        {/* {JSON.stringify(patientId)}
+        {/* {JSON.stringify(currentLoggedInUser)}
         {JSON.stringify(canAccess)} */}
       </div>
       {canAccess ? (

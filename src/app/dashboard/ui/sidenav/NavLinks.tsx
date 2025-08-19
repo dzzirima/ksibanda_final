@@ -38,7 +38,7 @@ const links = [
   },
   {
     name: "Doctor",
-    href: "/dashboard/doctor",
+    href: "/dashboard/nurse",
     icon: UserCircleIcon,
     authorizedRoles: ["doctor"],
   },

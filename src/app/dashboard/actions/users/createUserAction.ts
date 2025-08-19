@@ -27,7 +27,7 @@ const FormSchema = z.object({
   address: z.string().min(1, "address cant be empty !!"),
 
   walletAddress: z.string().min(1, "wallet address cant be empty !!"),
-  role: z.enum(["patient", "nurse", "doctor", "labtech"], {
+  role: z.enum(["patient", "nurse", "doctor", "labtech","admin"], {
     invalid_type_error: "Please select an invoice status",
   }),
   // date: z.string(),
