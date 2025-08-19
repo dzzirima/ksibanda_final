@@ -37,7 +37,7 @@ export default function GeneralTestsTable({ data }: { data: IGeneralTests[] }) {
 
       <Table
         bordered
-        height={400}
+        height={200}
         data={data}
         onRowClick={(rowData) => {
           console.log(rowData);

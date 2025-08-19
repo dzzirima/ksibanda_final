@@ -11,6 +11,7 @@ import { checkIfUserHasAccessToRecordsFromDb } from "@/app/dashboard/actions/aut
 import GeneralTestsTable from "@/app/dashboard/ui/general_tests/GeneralTestsTable";
 import findGeneralTestsByPatientId from "@/app/dashboard/actions/generaltest/findGeneralTestsByClientId";
 import { set } from "mongoose";
+import { Divider } from "@mui/material";
 
 // import { checkIfHasAccess } from "@/app/dashboard/patients/test_scripts/test_new";
 
@@ -171,9 +172,11 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
               </div>
             </div>
 
-            <div className="mt-5">
+            <div className="mt-5 mb-5">
                 <PatientReferralTable data={patientReferals}/>
             </div>
+
+            <Divider className="m-"> General Tests Results</Divider>
 
             <div className="mt-5">
                 <GeneralTestsTable data={generalTests}/>

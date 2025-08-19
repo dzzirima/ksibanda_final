@@ -35,7 +35,7 @@ export default function PatientReferralTable({ data }: { data: IReferral[] }) {
     <>
       <Table
         bordered
-        height={400}
+        height={200}
         data={data}
         onRowClick={(rowData) => {
           console.log(rowData);

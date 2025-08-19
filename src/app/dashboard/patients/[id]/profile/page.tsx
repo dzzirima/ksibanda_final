@@ -9,6 +9,9 @@ import { use, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { checkIfUserHasAccessToRecordsFromDb } from "@/app/dashboard/actions/auth/userhasAccess";
 import { getCurrentLoginUser } from "@/app/dashboard/actions/auth/getCurrentLoginUser";
+import { Divider } from "@mui/material";
+import GeneralTestsTable from "@/app/dashboard/ui/general_tests/GeneralTestsTable";
+import findGeneralTestsByPatientId from "@/app/dashboard/actions/generaltest/findGeneralTestsByClientId";
 
 // import { checkIfHasAccess } from "@/app/dashboard/patients/test_scripts/test_new";
 
@@ -21,6 +24,7 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
   const [patientReferals, setSetPatientReferals] = useState([]);
 
   const [ currentlyLoginUser , setCurrentLoginUser] = useState(null)
+    const [generalTests, setGeneralTests] = useState([]);
 
   const router = useRouter();
 
@@ -80,8 +84,13 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
       // getting  patient details
       let patientDetails = await findReferralsByPatientId(patientId);
 
+      let generalTests = await findGeneralTestsByPatientId(patientId);
+
       //@ts-ignore
       setSetPatientReferals(patientDetails);
+
+       //@ts-ignore
+      setGeneralTests(generalTests);
 
       }
       
@@ -140,18 +149,25 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
 
           <div className="bottomPart mt-5">
             <div className="flex flex-row">
-              <div className="text-green-500">
+              {/* <div className="text-green-500 hidden md:block">
                 <button
                   className="bg-blue-500 text-white px-4 py-2 rounded-md"
                   onClick={goToReferral}
                 >
                   New Refferal
                 </button>
-              </div>
+              </div> */}
             </div>
 
-            <div className="mt-5">
+            <div className="mt-5 mb-5">
                 <PatientReferralTable data={patientReferals}/>
+            </div>
+
+
+             <Divider className="m-"> General Tests Results</Divider>
+
+            <div className="mt-5">
+                <GeneralTestsTable data={generalTests}/>
             </div>
           </div>
         </div>
