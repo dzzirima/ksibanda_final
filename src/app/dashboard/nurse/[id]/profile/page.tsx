@@ -8,6 +8,9 @@ import { use, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getCurrentLoginUser } from "@/app/dashboard/actions/auth/getCurrentLoginUser";
 import { checkIfUserHasAccessToRecordsFromDb } from "@/app/dashboard/actions/auth/userhasAccess";
+import GeneralTestsTable from "@/app/dashboard/ui/general_tests/GeneralTestsTable";
+import findGeneralTestsByPatientId from "@/app/dashboard/actions/generaltest/findGeneralTestsByClientId";
+import { set } from "mongoose";
 
 // import { checkIfHasAccess } from "@/app/dashboard/patients/test_scripts/test_new";
 
@@ -18,6 +21,8 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
 
   const [canAccess, setCanAccess] = useState(false);
   const [patientReferals, setSetPatientReferals] = useState([]);
+
+  const [generalTests, setGeneralTests] = useState([]);
 
   const[currentLoggedInUser, setCurrentLoggedInUser] = useState(null);
 
@@ -81,6 +86,14 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
       let canAccess = await checkIfHasAccessCurrentLoginHasAccesss();
       
       let patientDetails = await findReferralsByPatientId(patientId);
+
+
+
+      let generalTests = await findGeneralTestsByPatientId(patientId);
+
+
+      //@ts-ignore
+      setGeneralTests(generalTests);
 
       //@ts-ignore
       setSetPatientReferals(patientDetails);
@@ -160,6 +173,10 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
 
             <div className="mt-5">
                 <PatientReferralTable data={patientReferals}/>
+            </div>
+
+            <div className="mt-5">
+                <GeneralTestsTable data={generalTests}/>
             </div>
           </div>
         </div>

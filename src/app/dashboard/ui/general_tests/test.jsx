@@ -1,73 +1,6 @@
-"use client";
-
-import SubmitButton from "@/app/dashboard/ui/utils/SubmitButton";
-import {
-  Divider,
-  TextField,
-  Typography,
-} from "@mui/material";
-
-
-import { useActionState } from "react";
-import { createGeneralTestAction , State} from "../../actions/generaltest/createTest";
-
-export default function GeneralTestForm({ users }: { users: any }) {
-  const initialState: State = { message: " ", errors: {} };
-
-  const [state, dispatch] = useActionState(createGeneralTestAction, initialState);
-
+export default function MedicalFormPage() {
   return (
-    <form action={dispatch} className="m-4">
-      <div className="flex flex-col justify-start mt-5 sm:mx-auto sm:w-full sm:max-w-full gap-1">
-        <Typography variant="h5" className="text-center">
-          General Test Form
-        </Typography>
-
-        
-
-        <select
-          id="customer"
-          name="testFor"
-          className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-          defaultValue=""
-          aria-describedby="customer-error"
-        >
-          <option value="" disabled>
-            Select Patient
-          </option>
-          {users.map((user: any) => (
-            <option key={user.id} value={user.id}>
-              {user.firstName + " " + user.lastName}
-            </option>
-          ))}
-        </select>
-
-        <TextField
-          name="files"
-          size="small"
-          type="file"
-          variant="outlined"
-          
-          className="mt-2"
-          // label="Attach Hospital Document"
-        />
-        <label className="mt-2 mb-2"> Attach Hospital Document </label>
-
-
-        <TextField
-          name="hospital"
-          size="small"
-          type="text"
-          variant="outlined"
-          
-          className="mt-2"
-          // label="Attach Hospital Document"
-        />
-       
-
-        {/* <SubmitButton label={"Create"} size={17} /> */}
-      </div>
-      <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-6">
           {/* History & Examination Section */}
@@ -83,18 +16,16 @@ export default function GeneralTestForm({ users }: { users: any }) {
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Contraception method before pregnancy
                   </label>
-                  <TextField
+                  <input
                     type="text"
-                    name="contraceptionMethod"
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Stopped on</label>
-                  <TextField
+                  <input
                     type="date"
                     placeholder="dd/mm/yyyy"
-                    name="stoppedOn"
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
@@ -104,16 +35,15 @@ export default function GeneralTestForm({ users }: { users: any }) {
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Assisted conception</label>
-                  <select name="assistedConception" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                  <select className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                     <option value="no">No</option>
                     <option value="yes">Yes</option>
                   </select>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Conception method</label>
-                  <TextField
+                  <input
                     type="text"
-                    name="conceptionMethod"
                     placeholder="e.g., IVF"
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   />
@@ -124,16 +54,15 @@ export default function GeneralTestForm({ users }: { users: any }) {
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Menstrual cycle</label>
-                  <select  name="menstrualCycle" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                  <select className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                     <option value="regular">Regular</option>
                     <option value="irregular">Irregular</option>
                   </select>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Last period</label>
-                  <TextField
+                  <input
                     type="date"
-                    name="lastPeriod"
                     placeholder="dd/mm/yyyy"
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   />
@@ -144,9 +73,8 @@ export default function GeneralTestForm({ users }: { users: any }) {
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Agreed due date</label>
-                  <TextField
+                  <input
                     type="date"
-                    name="agreedDueDate"
                     placeholder="dd/mm/yyyy"
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   />
@@ -158,7 +86,6 @@ export default function GeneralTestForm({ users }: { users: any }) {
                 <label className="block text-sm font-medium text-gray-700 mb-2">Gynaecological history</label>
                 <textarea
                   rows={4}
-                  name="gynaecologicalHistory"
                   placeholder="Complications, infections, etc."
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
                 ></textarea>
@@ -169,7 +96,6 @@ export default function GeneralTestForm({ users }: { users: any }) {
                 <label className="block text-sm font-medium text-gray-700 mb-2">Medical & surgical history</label>
                 <textarea
                   rows={4}
-                  name="medicalSurgicalHistory"
                   placeholder="Hypertension, diabetes, asthma, etc."
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
                 ></textarea>
@@ -180,7 +106,6 @@ export default function GeneralTestForm({ users }: { users: any }) {
                 <label className="block text-sm font-medium text-gray-700 mb-2">Nutrition/supplements</label>
                 <textarea
                   rows={3}
-                  name="nutritionSupplements"
                   placeholder="Vegetarian/vegan/intolerances, vitamins"
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
                 ></textarea>
@@ -200,7 +125,6 @@ export default function GeneralTestForm({ users }: { users: any }) {
                 <label className="block text-sm font-medium text-gray-700 mb-2">Allergies</label>
                 <textarea
                   rows={8}
-                  name="allergies"
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
                 ></textarea>
               </div>
@@ -209,7 +133,6 @@ export default function GeneralTestForm({ users }: { users: any }) {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Medications</label>
                 <textarea
-                name="medications"
                   rows={8}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
                 ></textarea>
@@ -218,23 +141,21 @@ export default function GeneralTestForm({ users }: { users: any }) {
           </div>
         </div>
 
-     
+        {/* Footer Note */}
+        <div className="mt-6 text-center">
+          <p className="text-sm text-gray-500">Sample UI layout. Not a medical device.</p>
+        </div>
 
         {/* Action Buttons */}
         <div className="mt-8 flex justify-end space-x-4">
-
-          <div >
-               <SubmitButton label="submit" size={16}/>
-
-          </div>
-
-       
-       
+          <button className="px-6 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            Cancel
+          </button>
+          <button className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            Save
+          </button>
         </div>
       </div>
     </div>
-
-
-    </form>
-  );
+  )
 }
