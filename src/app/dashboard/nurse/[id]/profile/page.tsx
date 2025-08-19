@@ -94,6 +94,10 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
     router.push("/dashboard/referral/create");
   };
 
+  const goToGeneralTests = () => {
+    router.push("/dashboard/general_tests/create");
+  };
+
   return (
     <>
       {/* <Test /> */}
@@ -134,13 +138,22 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
           </div>
 
           <div className="bottomPart mt-5">
-            <div className="flex flex-row">
+            <div className="flex flex-row justify-between">
               <div className="text-green-500">
                 <button
                   className="bg-blue-500 text-white px-4 py-2 rounded-md"
                   onClick={goToReferral}
                 >
                   New Refferal
+                </button>
+              </div>
+
+              <div className="text-green-500">
+                <button
+                  className="bg-blue-500 text-white px-4 py-2 rounded-md"
+                  onClick={goToGeneralTests}
+                >
+                  General Tests
                 </button>
               </div>
             </div>
