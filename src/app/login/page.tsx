@@ -11,7 +11,6 @@ export default function LoginPage() {
 
     let res = await signInAction(initialState, formData);
 
-
     if (res.success) {
       alert(res.message || "Login successful!");
 
