@@ -11,9 +11,40 @@ import { checkIfUserHasAccessToRecordsFromDb } from "@/app/dashboard/actions/aut
 import GeneralTestsTable from "@/app/dashboard/ui/general_tests/GeneralTestsTable";
 import findGeneralTestsByPatientId from "@/app/dashboard/actions/generaltest/findGeneralTestsByClientId";
 import { set } from "mongoose";
-import { Divider } from "@mui/material";
+import { Box, Divider, Tab, Tabs } from "@mui/material";
 
 // import { checkIfHasAccess } from "@/app/dashboard/patients/test_scripts/test_new";
+
+// Custom TabPanel component for MUI Tabs
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
+
+function CustomTabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+    </div>
+  );
+}
+
+function a11yProps(index: number) {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
+  };
+}
+//end of custom TabPanel component
 
 export default function Page(props: { params: Promise<{ id: string }> }) {
   const params = use(props.params); // Unwrap the params Promise
@@ -25,27 +56,34 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
 
   const [generalTests, setGeneralTests] = useState([]);
 
-  const[currentLoggedInUser, setCurrentLoggedInUser] = useState(null);
+  const [currentLoggedInUser, setCurrentLoggedInUser] = useState(null);
 
   const router = useRouter();
 
+  const [value, setValue] = useState(0);
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+  };
+
   // Check if the user has access to the patient's data
   const checkIfHasAccessCurrentLoginHasAccesss = async () => {
-
- 
     try {
       // const userHasAccess = await checkIfUserHasAccessToRecords(patientId);
 
-      console.log("Checking if user has access to records for patient:", patientId);
+      console.log(
+        "Checking if user has access to records for patient:",
+        patientId
+      );
 
       //@ts-ignore
-       const userHasAccess = await checkIfUserHasAccessToRecordsFromDb(currentLoggedInUser?.id, patientId); 
+      const userHasAccess = await checkIfUserHasAccessToRecordsFromDb(
+        currentLoggedInUser?.id,
+        patientId
+      );
 
       console.log("User has access:", userHasAccess);
 
-      if (
-        userHasAccess.accessRes == true 
-      ) {
+      if (userHasAccess.accessRes == true) {
         setCanAccess(true);
       } else {
         setCanAccess(false);
@@ -59,7 +97,7 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
   //handle requesting access
   const handleRequestAccess = async () => {
     // @ts-ignore
-    let currentaddress = currentLoggedInUser?.id
+    let currentaddress = currentLoggedInUser?.id;
 
     console.log("Current address:", currentaddress);
 
@@ -71,27 +109,20 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
     }
   };
 
-  
-
   useEffect(() => {
     async function checkIfcanAccess() {
-
       //getting current logged in user
 
-      if(currentLoggedInUser == null){
+      if (currentLoggedInUser == null) {
         let currentUser = await getCurrentLoginUser();
         setCurrentLoggedInUser(currentUser);
-
       }
-    
+
       let canAccess = await checkIfHasAccessCurrentLoginHasAccesss();
-      
+
       let patientDetails = await findReferralsByPatientId(patientId);
 
-
-
       let generalTests = await findGeneralTestsByPatientId(patientId);
-
 
       //@ts-ignore
       setGeneralTests(generalTests);
@@ -144,9 +175,9 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
                 ? `${currentLoggedInUser.id.slice(0, 6)}...${patientId.slice(-3)}`
                 : ""} */}
 
-                 {currentLoggedInUser
-                 //@ts-ignore
-                ? `${currentLoggedInUser.firstName}`
+              {currentLoggedInUser
+                ? //@ts-ignore
+                  `${currentLoggedInUser.firstName}`
                 : ""}
             </div>
           </div>
@@ -167,12 +198,12 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
                   className="bg-blue-500 text-white px-4 py-2 rounded-md"
                   onClick={goToGeneralTests}
                 >
-                  General Tests
+                  New General Tests
                 </button>
               </div>
             </div>
 
-            <div className="mt-5 mb-5">
+            {/* <div className="mt-5 mb-5">
                 <PatientReferralTable data={patientReferals}/>
             </div>
 
@@ -180,7 +211,32 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
 
             <div className="mt-5">
                 <GeneralTestsTable data={generalTests}/>
-            </div>
+            </div> */}
+
+            <Box sx={{ width: "100%" }}>
+              <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                <Tabs
+                  value={value}
+                  onChange={handleChange}
+                  aria-label="basic tabs example"
+                >
+                  <Tab label="My Referrals" {...a11yProps(0)} />
+                  <Tab label="General Tests" {...a11yProps(1)} />
+                  <Tab label="General Tests Results" {...a11yProps(2)} />
+                </Tabs>
+              </Box>
+              <CustomTabPanel value={value} index={0}>
+                <div className="mt-5">
+                  <GeneralTestsTable data={generalTests} />
+                </div>
+              </CustomTabPanel>
+              <CustomTabPanel value={value} index={1}>
+                <GeneralTestsTable data={generalTests} />
+              </CustomTabPanel>
+              <CustomTabPanel value={value} index={2}>
+                <GeneralTestsTable data={generalTests} />
+              </CustomTabPanel>
+            </Box>
           </div>
         </div>
       ) : (
