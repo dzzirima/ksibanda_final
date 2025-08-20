@@ -9,11 +9,44 @@ import { use, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { checkIfUserHasAccessToRecordsFromDb } from "@/app/dashboard/actions/auth/userhasAccess";
 import { getCurrentLoginUser } from "@/app/dashboard/actions/auth/getCurrentLoginUser";
-import { Divider } from "@mui/material";
+import { Box, Divider, Tab, Tabs } from "@mui/material";
 import GeneralTestsTable from "@/app/dashboard/ui/general_tests/GeneralTestsTable";
 import findGeneralTestsByPatientId from "@/app/dashboard/actions/generaltest/findGeneralTestsByClientId";
+// import { Placeholder, Tabs } from "rsuite";
+// import "rsuite/dist/rsuite.min.css";
 
 // import { checkIfHasAccess } from "@/app/dashboard/patients/test_scripts/test_new";
+
+// Custom TabPanel component for MUI Tabs
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
+
+function CustomTabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+    </div>
+  );
+}
+
+function a11yProps(index: number) {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
+  };
+}
+//end of custom TabPanel component
 
 export default function Page(props: { params: Promise<{ id: string }> }) {
   const params = use(props.params); // Unwrap the params Promise
@@ -23,26 +56,34 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
   const [canAccess, setCanAccess] = useState(false);
   const [patientReferals, setSetPatientReferals] = useState([]);
 
-  const [ currentlyLoginUser , setCurrentLoginUser] = useState(null)
-    const [generalTests, setGeneralTests] = useState([]);
+  const [currentlyLoginUser, setCurrentLoginUser] = useState(null);
+  const [generalTests, setGeneralTests] = useState([]);
 
   const router = useRouter();
 
+  const [value, setValue] = useState(0);
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+  };
+
   // Check if the user has access to the patient's data
   const checkIfHasAccess = async () => {
-
-    console.log("Checking if user has access to records for patient:", patientId);
+    console.log(
+      "Checking if user has access to records for patient:",
+      patientId
+    );
     try {
       // const userHasAccess = await checkIfUserHasAccessToRecords(patientId);
-     
+
       //@ts-ignore
-      const userHasAccess = await   checkIfUserHasAccessToRecordsFromDb(currentlyLoginUser?.id, patientId)
+      const userHasAccess = await checkIfUserHasAccessToRecordsFromDb(
+        currentlyLoginUser?.id,
+        patientId
+      );
 
       console.log("User has access:", userHasAccess);
 
-      if (
-        userHasAccess.accessRes == true
-      ) {
+      if (userHasAccess.accessRes == true) {
         setCanAccess(true);
       } else {
         setCanAccess(false);
@@ -56,7 +97,7 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
   //handle requesting access
   const handleRequestAccess = async () => {
     // @ts-ignore
-    let currentaddress = currentlyLoginUser.id
+    let currentaddress = currentlyLoginUser.id;
 
     try {
       let responce = await requestAccess(currentaddress, patientId, "active");
@@ -68,32 +109,27 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
 
   useEffect(() => {
     async function checkIfcanAccess() {
+      if (currentlyLoginUser == null) {
+        let currentloged = await getCurrentLoginUser();
 
-
-      if( currentlyLoginUser == null){
-        let currentloged = await getCurrentLoginUser()
-
-      setCurrentLoginUser(currentloged)
-
-      }else{
+        setCurrentLoginUser(currentloged);
+      } else {
         let canAccess = await checkIfHasAccess();
 
-         //@ts-ignore
-      // setCanAccess(canAccess);
+        //@ts-ignore
+        // setCanAccess(canAccess);
 
-      // getting  patient details
-      let patientDetails = await findReferralsByPatientId(patientId);
+        // getting  patient details
+        let patientDetails = await findReferralsByPatientId(patientId);
 
-      let generalTests = await findGeneralTestsByPatientId(patientId);
+        let generalTests = await findGeneralTestsByPatientId(patientId);
 
-      //@ts-ignore
-      setSetPatientReferals(patientDetails);
+        //@ts-ignore
+        setSetPatientReferals(patientDetails);
 
-       //@ts-ignore
-      setGeneralTests(generalTests);
-
+        //@ts-ignore
+        setGeneralTests(generalTests);
       }
-      
     }
 
     checkIfcanAccess();
@@ -136,16 +172,13 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
                 ? `${patientId.slice(0, 6)}...${patientId.slice(-3)}`
                 : ""} */}
 
-                  {patientId
-                  //@ts-ignore
-                ? `${currentlyLoginUser.firstName}`
+              {patientId
+                ? //@ts-ignore
+                  `${currentlyLoginUser.firstName}`
                 : ""}
-
-
-
-                
             </div>
           </div>
+
 
           <div className="bottomPart mt-5">
             <div className="flex flex-row">
@@ -159,16 +192,51 @@ export default function Page(props: { params: Promise<{ id: string }> }) {
               </div> */}
             </div>
 
-            <div className="mt-5 mb-5">
-                <PatientReferralTable data={patientReferals}/>
-            </div>
+            {/* working with tabs */}
+
+            {/* <Tabs defaultActiveKey="1">
+              <Tabs.Tab eventKey="1" title="My Referrals">
+                <div className="mt-5 mb-5">
+                  <PatientReferralTable data={patientReferals} />
+                </div>
+              </Tabs.Tab>
+              <Tabs.Tab eventKey="2" title="General Tests">
+                <div className="mt-5">
+                  <GeneralTestsTable data={generalTests} />
+                </div>
+              </Tabs.Tab>
+              <Tabs.Tab eventKey="3" title="General Tests Results">
+                <GeneralTestsTable data={generalTests} />
+              </Tabs.Tab>
+            </Tabs> */}
 
 
-             <Divider className="m-"> General Tests Results</Divider>
 
-            <div className="mt-5">
-                <GeneralTestsTable data={generalTests}/>
-            </div>
+            <Box sx={{ width: "100%" }}>
+              <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                <Tabs
+                  value={value}
+                  onChange={handleChange}
+                  
+                  aria-label="basic tabs example"
+                >
+                  <Tab label="My Referrals" {...a11yProps(0)} />
+                  <Tab label="General Tests" {...a11yProps(1)} />
+                  <Tab label="General Tests Results" {...a11yProps(2)} />
+                </Tabs>
+              </Box>
+              <CustomTabPanel  value={(value)} index={0}>
+                <div className="mt-5">
+                  <GeneralTestsTable data={generalTests} />
+                </div>
+              </CustomTabPanel>
+              <CustomTabPanel value={(value)} index={1}>
+                 <GeneralTestsTable data={generalTests} />
+              </CustomTabPanel>
+              <CustomTabPanel value={(value)} index={2}>
+                 <GeneralTestsTable data={generalTests} />
+              </CustomTabPanel>
+            </Box>
           </div>
         </div>
       ) : (

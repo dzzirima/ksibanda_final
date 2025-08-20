@@ -55,8 +55,8 @@ export const checkIfHasAccess = async () => {
 
 
 export const addAccessor = async (requestorWalletId,patientWalletId) => {
-  const signer = await connectWallet();
-  if (!signer) return;
+  // const signer = await connectWallet();
+  // if (!signer) return;
 
   try {
  
