@@ -13,7 +13,7 @@ export default async function NurseSideNavContainer() {
    let users = await findAllUsers();
 
    // filter out users that are not nurses
-  //  users = users.filter((user) => user.role === "nurse");
+   users = users.filter((user) => user.role === "patient");
 
 
   return (
