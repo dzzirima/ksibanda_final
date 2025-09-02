@@ -1,3 +1,5 @@
+'use client';
+
 import React from "react";
 import { useState } from "react";
 import { Calendar, ClipboardList, Stethoscope, Baby, HeartPulse, Syringe, Phone, FlaskConical, MonitorPlay, ClipboardCheck, Hospital, User2, Home, AlertTriangle } from "lucide-react";
