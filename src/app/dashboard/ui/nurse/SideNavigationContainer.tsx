@@ -1,5 +1,3 @@
-
-
 import { UserCircleIcon } from "@heroicons/react/20/solid";
 import { TextField } from "@mui/material";
 import clsx from "clsx";
@@ -12,8 +10,9 @@ export default async function NurseSideNavContainer() {
 
    let users = await findAllUsers();
 
-   // filter out users that are not nurses
-   users = users.filter((user) => user.role === "patient");
+   // filter out users that are not patients
+   users = users.filter((user) =>
+      user.role === "patient");
 
 
   return (
